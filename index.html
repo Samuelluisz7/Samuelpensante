@@ -649,12 +649,11 @@
         }
 
         function abrirDisciplina(id) {
-            const disc = disciplinas.find(d => d.id === id);
-            alert(`📚 ${disc.nome}\n\n${disc.descricao}\n\nEm breve: Página completa com todos os tópicos!`);
+            window.location.href = `disciplina.html?disciplina=${id}`;
         }
 
         function abrirPesquisa() {
-            document.getElementById('inputPesquisa').focus();
+            window.location.href = 'pesquisa.html';
         }
 
         function abrirPiramide() {
@@ -662,7 +661,7 @@
         }
 
         function abrirConfiguracoes() {
-            alert('⚙️ Configurações\n\nEm breve: Configure sua chave de API Gemini aqui!');
+            window.location.href = 'config-gemini.html';
         }
 
         function fazerLogout() {

@@ -1,0 +1,592 @@
+{
+  "disciplinas": {
+    "matematica": {
+      "nome": "Matemática",
+      "icone": "📐",
+      "cor": "#3498db",
+      "descricao": "Estude matemática do zero até conceitos avançados",
+      "topicos": [
+        {
+          "id": "numeros-naturais",
+          "titulo": "Números Naturais",
+          "descricao": "Compreenda os números naturais e suas propriedades",
+          "conteudo": {
+            "explicacao": "Os números naturais são: 0, 1, 2, 3, 4, 5, ... Eles são usados para contar e ordenar objetos.",
+            "exemplos": [
+              "5 maçãs",
+              "10 pessoas",
+              "100 reais"
+            ],
+            "propriedades": [
+              "Fechamento: A soma de dois números naturais é sempre um número natural",
+              "Comutatividade: 3 + 5 = 5 + 3",
+              "Associatividade: (2 + 3) + 4 = 2 + (3 + 4)"
+            ]
+          }
+        },
+        {
+          "id": "adicao-subtracao",
+          "titulo": "Adição e Subtração",
+          "descricao": "Aprenda as operações básicas de adição e subtração",
+          "conteudo": {
+            "explicacao": "Adição é juntar quantidades. Subtração é tirar uma quantidade de outra.",
+            "exemplos": [
+              "3 + 5 = 8 (juntamos 3 com 5)",
+              "10 - 4 = 6 (tiramos 4 de 10)",
+              "7 + 2 - 3 = 6"
+            ],
+            "propriedades": [
+              "Adição é comutativa: 3 + 5 = 5 + 3",
+              "Subtração não é comutativa: 5 - 3 ≠ 3 - 5",
+              "O zero é o elemento neutro da adição"
+            ]
+          }
+        },
+        {
+          "id": "multiplicacao-divisao",
+          "titulo": "Multiplicação e Divisão",
+          "descricao": "Domine as operações de multiplicação e divisão",
+          "conteudo": {
+            "explicacao": "Multiplicação é uma adição repetida. Divisão é repartir em partes iguais.",
+            "exemplos": [
+              "3 × 4 = 12 (3 grupos de 4)",
+              "12 ÷ 3 = 4 (12 dividido em 3 partes)",
+              "5 × 6 = 30"
+            ],
+            "propriedades": [
+              "Multiplicação é comutativa: 3 × 4 = 4 × 3",
+              "Divisão não é comutativa: 12 ÷ 3 ≠ 3 ÷ 12",
+              "O um é o elemento neutro da multiplicação"
+            ]
+          }
+        },
+        {
+          "id": "fracoes",
+          "titulo": "Frações",
+          "descricao": "Compreenda frações e operações com frações",
+          "conteudo": {
+            "explicacao": "Uma fração representa uma parte de um todo. É escrita como numerador/denominador.",
+            "exemplos": [
+              "1/2 = metade",
+              "1/4 = um quarto",
+              "3/4 = três quartos"
+            ],
+            "propriedades": [
+              "Frações equivalentes: 1/2 = 2/4 = 3/6",
+              "Soma: 1/2 + 1/4 = 2/4 + 1/4 = 3/4",
+              "Multiplicação: 1/2 × 1/3 = 1/6"
+            ]
+          }
+        },
+        {
+          "id": "numeros-decimais",
+          "titulo": "Números Decimais",
+          "descricao": "Trabalhe com números decimais e conversões",
+          "conteudo": {
+            "explicacao": "Números decimais usam a vírgula para separar a parte inteira da parte fracionária.",
+            "exemplos": [
+              "0,5 = 1/2",
+              "0,25 = 1/4",
+              "1,5 = 3/2"
+            ],
+            "propriedades": [
+              "Conversão: 1/2 = 0,5",
+              "Soma: 1,5 + 2,3 = 3,8",
+              "Multiplicação: 0,5 × 2 = 1,0"
+            ]
+          }
+        }
+      ]
+    },
+    "biologia": {
+      "nome": "Biologia",
+      "icone": "🧬",
+      "cor": "#27ae60",
+      "descricao": "Estude a vida, células, organismos e ecossistemas",
+      "topicos": [
+        {
+          "id": "celula",
+          "titulo": "A Célula",
+          "descricao": "Conheça a unidade básica da vida",
+          "conteudo": {
+            "explicacao": "A célula é a menor unidade de vida. Todos os seres vivos são compostos por células.",
+            "exemplos": [
+              "Célula animal: possui núcleo e organelas",
+              "Célula vegetal: possui parede celular",
+              "Célula bacteriana: não possui núcleo"
+            ],
+            "propriedades": [
+              "Membrana plasmática: controla o que entra e sai",
+              "Núcleo: contém o DNA",
+              "Mitocôndria: produz energia"
+            ]
+          }
+        },
+        {
+          "id": "fotossintese",
+          "titulo": "Fotossíntese",
+          "descricao": "Compreenda como as plantas produzem energia",
+          "conteudo": {
+            "explicacao": "Fotossíntese é o processo onde as plantas convertem luz solar em energia química.",
+            "exemplos": [
+              "6CO₂ + 6H₂O + luz → C₆H₁₂O₆ + 6O₂",
+              "Fase luminosa: ocorre nos tilacoides",
+              "Fase escura: ocorre no estroma"
+            ],
+            "propriedades": [
+              "Produz oxigênio necessário para respiração",
+              "Produz glicose como fonte de energia",
+              "Base da cadeia alimentar"
+            ]
+          }
+        },
+        {
+          "id": "respiracao-celular",
+          "titulo": "Respiração Celular",
+          "descricao": "Aprenda como as células produzem energia",
+          "conteudo": {
+            "explicacao": "Respiração celular é o processo onde a glicose é quebrada para liberar energia.",
+            "exemplos": [
+              "C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + energia",
+              "Glicólise: ocorre no citoplasma",
+              "Ciclo de Krebs: ocorre na mitocôndria"
+            ],
+            "propriedades": [
+              "Produz ATP (energia)",
+              "Consome glicose e oxigênio",
+              "Libera dióxido de carbono"
+            ]
+          }
+        },
+        {
+          "id": "dna",
+          "titulo": "DNA e Genética",
+          "descricao": "Compreenda a hereditariedade e o DNA",
+          "conteudo": {
+            "explicacao": "DNA é a molécula que contém as instruções para construir e manter um organismo.",
+            "exemplos": [
+              "DNA tem forma de dupla hélice",
+              "Genes são segmentos de DNA",
+              "Cromossomos contêm muitos genes"
+            ],
+            "propriedades": [
+              "Formado por nucleotídeos",
+              "Bases: Adenina, Timina, Guanina, Citosina",
+              "Replicação: cada fita serve como molde"
+            ]
+          }
+        },
+        {
+          "id": "evolucao",
+          "titulo": "Evolução",
+          "descricao": "Entenda a teoria da evolução e seleção natural",
+          "conteudo": {
+            "explicacao": "Evolução é o processo de mudança dos organismos ao longo do tempo.",
+            "exemplos": [
+              "Seleção natural: sobrevivem os mais adaptados",
+              "Adaptação: características que ajudam na sobrevivência",
+              "Especiação: formação de novas espécies"
+            ],
+            "propriedades": [
+              "Baseada em variação genética",
+              "Luta pela sobrevivência",
+              "Descendência com modificação"
+            ]
+          }
+        }
+      ]
+    },
+    "historia": {
+      "nome": "História",
+      "icone": "📜",
+      "cor": "#d35400",
+      "descricao": "Conheça os eventos que moldaram o mundo",
+      "topicos": [
+        {
+          "id": "idade-media",
+          "titulo": "Idade Média",
+          "descricao": "Explore o período medieval europeu",
+          "conteudo": {
+            "explicacao": "A Idade Média durou aproximadamente 1000 anos (século V ao XV).",
+            "exemplos": [
+              "Feudalismo: sistema político e social",
+              "Cavaleiros: classe militar",
+              "Igreja: grande poder político"
+            ],
+            "propriedades": [
+              "Período de transição entre Antiguidade e Modernidade",
+              "Desenvolvimento do feudalismo",
+              "Grande influência da Igreja Católica"
+            ]
+          }
+        },
+        {
+          "id": "renascenca",
+          "titulo": "Renascença",
+          "descricao": "Conheça o movimento cultural que transformou a Europa",
+          "conteudo": {
+            "explicacao": "Renascença foi um movimento cultural que marcou a transição para a Idade Moderna.",
+            "exemplos": [
+              "Humanismo: foco no ser humano",
+              "Artes: pintura, escultura, arquitetura",
+              "Ciência: observação e experimentação"
+            ],
+            "propriedades": [
+              "Retorno aos valores greco-romanos",
+              "Desenvolvimento da perspectiva na arte",
+              "Avanços científicos"
+            ]
+          }
+        },
+        {
+          "id": "revolucao-francesa",
+          "titulo": "Revolução Francesa",
+          "descricao": "Compreenda a transformação social e política",
+          "conteudo": {
+            "explicacao": "A Revolução Francesa (1789-1799) transformou a história europeia.",
+            "exemplos": [
+              "1789: Queda da Bastilha",
+              "1789: Declaração dos Direitos do Homem",
+              "1793: Execução de Luís XVI"
+            ],
+            "propriedades": [
+              "Fim do absolutismo monárquico",
+              "Estabelecimento de direitos humanos",
+              "Surgimento do nacionalismo"
+            ]
+          }
+        },
+        {
+          "id": "revolucao-industrial",
+          "titulo": "Revolução Industrial",
+          "descricao": "Aprenda sobre a transformação econômica",
+          "conteudo": {
+            "explicacao": "A Revolução Industrial (século XVIII-XIX) transformou a produção e a sociedade.",
+            "exemplos": [
+              "Mecanização da produção",
+              "Surgimento das fábricas",
+              "Êxodo rural"
+            ],
+            "propriedades": [
+              "Uso de máquinas a vapor",
+              "Aumento da produção",
+              "Surgimento da classe operária"
+            ]
+          }
+        },
+        {
+          "id": "guerras-mundiais",
+          "titulo": "Guerras Mundiais",
+          "descricao": "Compreenda os conflitos que marcaram o século XX",
+          "conteudo": {
+            "explicacao": "As Guerras Mundiais foram os maiores conflitos da história.",
+            "exemplos": [
+              "Primeira Guerra (1914-1918): trincheiras",
+              "Segunda Guerra (1939-1945): nazismo",
+              "Consequências: divisão do mundo"
+            ],
+            "propriedades": [
+              "Morte de milhões de pessoas",
+              "Mudança do mapa político mundial",
+              "Surgimento da ONU"
+            ]
+          }
+        }
+      ]
+    },
+    "portugues": {
+      "nome": "Português",
+      "icone": "📚",
+      "cor": "#2980b9",
+      "descricao": "Domine a língua portuguesa, literatura e gramática",
+      "topicos": [
+        {
+          "id": "gramatica-basica",
+          "titulo": "Gramática Básica",
+          "descricao": "Aprenda os fundamentos da gramática",
+          "conteudo": {
+            "explicacao": "Gramática é o conjunto de regras que governa o uso de uma língua.",
+            "exemplos": [
+              "Substantivo: palavra que nomeia",
+              "Verbo: palavra que expressa ação",
+              "Adjetivo: palavra que descreve"
+            ],
+            "propriedades": [
+              "Classes de palavras: 10 classes",
+              "Frase: conjunto de palavras com sentido",
+              "Oração: frase com verbo"
+            ]
+          }
+        },
+        {
+          "id": "literatura-brasileira",
+          "titulo": "Literatura Brasileira",
+          "descricao": "Conheça os principais autores e obras",
+          "conteudo": {
+            "explicacao": "Literatura brasileira tem uma história rica e diversa.",
+            "exemplos": [
+              "Machado de Assis: Dom Casmurro",
+              "Carlos Drummond de Andrade: Sentimento do Mundo",
+              "Jorge Amado: Capitães da Areia"
+            ],
+            "propriedades": [
+              "Quinhentismo: primeiras manifestações",
+              "Barroco: dualismo",
+              "Modernismo: inovação"
+            ]
+          }
+        },
+        {
+          "id": "redacao",
+          "titulo": "Redação",
+          "descricao": "Aprenda a escrever com clareza",
+          "conteudo": {
+            "explicacao": "Redação é a arte de expressar ideias por escrito.",
+            "exemplos": [
+              "Narração: conta uma história",
+              "Descrição: descreve algo",
+              "Dissertação: argumenta sobre um tema"
+            ],
+            "propriedades": [
+              "Introdução: apresenta o tema",
+              "Desenvolvimento: explora o tema",
+              "Conclusão: finaliza o texto"
+            ]
+          }
+        },
+        {
+          "id": "figuras-linguagem",
+          "titulo": "Figuras de Linguagem",
+          "descricao": "Compreenda recursos estilísticos",
+          "conteudo": {
+            "explicacao": "Figuras de linguagem são recursos para tornar o texto mais expressivo.",
+            "exemplos": [
+              "Metáfora: comparação implícita",
+              "Simile: comparação explícita",
+              "Hipérbole: exagero"
+            ],
+            "propriedades": [
+              "Metonímia: substituição de nomes",
+              "Personificação: atribuir qualidades humanas",
+              "Ironia: dizer o oposto do que se pensa"
+            ]
+          }
+        },
+        {
+          "id": "ortografia",
+          "titulo": "Ortografia",
+          "descricao": "Domine a escrita correta",
+          "conteudo": {
+            "explicacao": "Ortografia é a forma correta de escrever as palavras.",
+            "exemplos": [
+              "Uso de 'S' e 'Z'",
+              "Uso de 'Ç' e 'SS'",
+              "Acentuação correta"
+            ],
+            "propriedades": [
+              "Regras de acentuação",
+              "Hífen: quando usar",
+              "Maiúsculas: quando usar"
+            ]
+          }
+        }
+      ]
+    },
+    "quimica": {
+      "nome": "Química",
+      "icone": "⚗️",
+      "cor": "#9b59b6",
+      "descricao": "Aprenda sobre elementos, reações e compostos",
+      "topicos": [
+        {
+          "id": "tabela-periodica",
+          "titulo": "Tabela Periódica",
+          "descricao": "Conheça a organização dos elementos",
+          "conteudo": {
+            "explicacao": "A tabela periódica organiza todos os elementos químicos conhecidos.",
+            "exemplos": [
+              "Hidrogênio (H): elemento mais leve",
+              "Oxigênio (O): essencial para vida",
+              "Carbono (C): base da vida"
+            ],
+            "propriedades": [
+              "Períodos: linhas horizontais",
+              "Grupos: colunas verticais",
+              "Metais, não-metais, semimetais"
+            ]
+          }
+        },
+        {
+          "id": "ligacoes-quimicas",
+          "titulo": "Ligações Químicas",
+          "descricao": "Compreenda como os átomos se ligam",
+          "conteudo": {
+            "explicacao": "Ligações químicas unem átomos para formar moléculas.",
+            "exemplos": [
+              "Ligação iônica: transferência de elétrons",
+              "Ligação covalente: compartilhamento de elétrons",
+              "Ligação metálica: elétrons livres"
+            ],
+            "propriedades": [
+              "Eletronegatividade: capacidade de atrair elétrons",
+              "Valência: número de ligações",
+              "Estabilidade: átomos buscam estabilidade"
+            ]
+          }
+        },
+        {
+          "id": "reacoes-quimicas",
+          "titulo": "Reações Químicas",
+          "descricao": "Aprenda sobre transformações químicas",
+          "conteudo": {
+            "explicacao": "Reações químicas transformam substâncias em outras.",
+            "exemplos": [
+              "Combustão: queima de combustível",
+              "Síntese: combinação de substâncias",
+              "Decomposição: quebra de substâncias"
+            ],
+            "propriedades": [
+              "Reagentes: substâncias iniciais",
+              "Produtos: substâncias finais",
+              "Lei da conservação da massa"
+            ]
+          }
+        },
+        {
+          "id": "acidos-bases",
+          "titulo": "Ácidos e Bases",
+          "descricao": "Compreenda o pH e neutralização",
+          "conteudo": {
+            "explicacao": "Ácidos e bases são substâncias com propriedades opostas.",
+            "exemplos": [
+              "Ácido: pH < 7, azeda",
+              "Base: pH > 7, amarga",
+              "Neutro: pH = 7"
+            ],
+            "propriedades": [
+              "Escala de pH: 0 a 14",
+              "Neutralização: ácido + base = sal + água",
+              "Indicadores: mudam de cor"
+            ]
+          }
+        },
+        {
+          "id": "estequiometria",
+          "titulo": "Estequiometria",
+          "descricao": "Calcule proporções em reações",
+          "conteudo": {
+            "explicacao": "Estequiometria calcula as proporções em reações químicas.",
+            "exemplos": [
+              "Balanceamento de equações",
+              "Cálculo de reagentes necessários",
+              "Cálculo de produtos formados"
+            ],
+            "propriedades": [
+              "Coeficientes: números que balanceiam",
+              "Mol: unidade de quantidade",
+              "Massa molar: massa de um mol"
+            ]
+          }
+        }
+      ]
+    },
+    "fisica": {
+      "nome": "Física",
+      "icone": "⚡",
+      "cor": "#e74c3c",
+      "descricao": "Explore os fenômenos da natureza",
+      "topicos": [
+        {
+          "id": "movimento",
+          "titulo": "Movimento",
+          "descricao": "Compreenda cinemática e dinâmica",
+          "conteudo": {
+            "explicacao": "Movimento é a mudança de posição de um objeto ao longo do tempo.",
+            "exemplos": [
+              "Velocidade: distância / tempo",
+              "Aceleração: mudança de velocidade",
+              "MRU: movimento com velocidade constante"
+            ],
+            "propriedades": [
+              "Deslocamento: mudança de posição",
+              "Velocidade média: deslocamento total / tempo total",
+              "Aceleração média: mudança de velocidade / tempo"
+            ]
+          }
+        },
+        {
+          "id": "forca",
+          "titulo": "Força e Leis de Newton",
+          "descricao": "Aprenda sobre as forças e movimento",
+          "conteudo": {
+            "explicacao": "Força é uma ação que pode mudar o movimento de um objeto.",
+            "exemplos": [
+              "1ª Lei: objeto em repouso tende a permanecer em repouso",
+              "2ª Lei: F = m × a",
+              "3ª Lei: ação e reação"
+            ],
+            "propriedades": [
+              "Força resultante: soma de todas as forças",
+              "Peso: força da gravidade",
+              "Normal: força perpendicular à superfície"
+            ]
+          }
+        },
+        {
+          "id": "energia",
+          "titulo": "Energia",
+          "descricao": "Compreenda energia cinética e potencial",
+          "conteudo": {
+            "explicacao": "Energia é a capacidade de realizar trabalho.",
+            "exemplos": [
+              "Energia cinética: energia do movimento",
+              "Energia potencial: energia armazenada",
+              "Conservação: energia total é constante"
+            ],
+            "propriedades": [
+              "Trabalho: força × deslocamento",
+              "Potência: trabalho / tempo",
+              "Transformação: uma forma em outra"
+            ]
+          }
+        },
+        {
+          "id": "onda",
+          "titulo": "Ondas",
+          "descricao": "Estude ondas e propagação",
+          "conteudo": {
+            "explicacao": "Onda é uma perturbação que se propaga através de um meio.",
+            "exemplos": [
+              "Onda sonora: vibração do ar",
+              "Onda luminosa: radiação eletromagnética",
+              "Onda em corda: vibração transversal"
+            ],
+            "propriedades": [
+              "Comprimento de onda: distância entre cristas",
+              "Frequência: número de ondas por segundo",
+              "Velocidade: comprimento × frequência"
+            ]
+          }
+        },
+        {
+          "id": "eletricidade",
+          "titulo": "Eletricidade",
+          "descricao": "Aprenda sobre carga e corrente elétrica",
+          "conteudo": {
+            "explicacao": "Eletricidade é o fluxo de elétrons através de um condutor.",
+            "exemplos": [
+              "Carga elétrica: propriedade da matéria",
+              "Corrente: fluxo de carga",
+              "Tensão: diferença de potencial"
+            ],
+            "propriedades": [
+              "Lei de Ohm: V = I × R",
+              "Resistência: oposição ao fluxo",
+              "Potência: V × I"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

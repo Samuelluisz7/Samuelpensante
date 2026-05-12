@@ -50,17 +50,12 @@
             margin-bottom: 10px;
         }
 
-        header p {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
             display: grid;
-            grid-template-columns: 250px 1fr;
+            grid-template-columns: 280px 1fr;
             gap: 30px;
         }
 
@@ -78,6 +73,8 @@
             color: var(--cor-primaria);
             margin-bottom: 15px;
             font-size: 1.1rem;
+            border-bottom: 2px solid var(--cor-primaria);
+            padding-bottom: 10px;
         }
 
         .topicos-lista {
@@ -85,22 +82,25 @@
         }
 
         .topicos-lista li {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .topicos-lista a {
             color: #7f8c8d;
             text-decoration: none;
             display: block;
-            padding: 8px 12px;
+            padding: 10px 12px;
             border-radius: 6px;
             transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem;
         }
 
         .topicos-lista a:hover,
         .topicos-lista a.ativo {
-            background: var(--cor-primaria);
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
             color: white;
+            font-weight: 600;
         }
 
         .conteudo {
@@ -110,6 +110,21 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
+        .btn-voltar {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #95a5a6;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-voltar:hover {
+            background: #7f8c8d;
+        }
+
         .topico {
             margin-bottom: 40px;
             display: none;
@@ -117,18 +132,27 @@
 
         .topico.ativo {
             display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .topico h2 {
             color: var(--cor-primaria);
             margin-bottom: 15px;
             font-size: 1.8rem;
+            border-bottom: 3px solid var(--cor-primaria);
+            padding-bottom: 10px;
         }
 
         .topico-descricao {
             color: #7f8c8d;
             margin-bottom: 20px;
             line-height: 1.8;
+            font-size: 1.05rem;
         }
 
         .secao {
@@ -149,60 +173,89 @@
             margin-bottom: 15px;
         }
 
+        .secao ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .secao li {
+            margin-bottom: 10px;
+            color: #555;
+            line-height: 1.7;
+        }
+
         .exemplo {
-            background: #f8f9fa;
-            border-left: 4px solid var(--cor-primaria);
-            padding: 15px;
-            border-radius: 6px;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4f8 100%);
+            border-left: 5px solid var(--cor-primaria);
+            padding: 18px;
+            border-radius: 8px;
             margin-bottom: 15px;
         }
 
         .exemplo-titulo {
             font-weight: 700;
             color: var(--cor-primaria);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .exemplo p {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            line-height: 1.6;
         }
 
         .exercicio {
-            background: #f0f7ff;
-            border-left: 4px solid #3498db;
-            padding: 15px;
-            border-radius: 6px;
+            background: linear-gradient(135deg, #fef5e7 0%, #fef9e7 100%);
+            border-left: 5px solid #f39c12;
+            padding: 18px;
+            border-radius: 8px;
             margin-bottom: 15px;
         }
 
         .exercicio-titulo {
             font-weight: 700;
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
         }
 
-        .opcoes {
-            margin-left: 20px;
-        }
-
-        .opcao {
-            margin-bottom: 8px;
-            cursor: pointer;
-        }
-
-        .opcao input[type="radio"] {
-            margin-right: 8px;
-        }
-
-        .btn-voltar {
-            display: inline-block;
+        .btn-gerar {
             padding: 12px 25px;
-            background: #95a5a6;
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
             color: white;
-            text-decoration: none;
+            border: none;
             border-radius: 8px;
-            margin-bottom: 20px;
+            font-weight: 700;
+            cursor: pointer;
             transition: all 0.3s ease;
+            margin-top: 20px;
+            font-size: 1rem;
         }
 
-        .btn-voltar:hover {
-            background: #7f8c8d;
+        .btn-gerar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--cor-primaria);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         footer {
@@ -214,16 +267,16 @@
         }
 
         @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
             .container {
                 grid-template-columns: 1fr;
             }
 
             .sidebar {
                 position: static;
-            }
-
-            header {
-                padding: 15px 20px;
             }
 
             header h1 {
@@ -235,7 +288,6 @@
 <body>
     <header>
         <h1 id="disciplinaTitulo">📚 Disciplina</h1>
-        <p id="disciplinaDesc">Conteúdo educacional completo</p>
     </header>
 
     <div class="container">
@@ -254,133 +306,38 @@
         <p>&copy; 2026 SamuelPensante</p>
     </footer>
 
+    <script src="js/ia-gemini.js"></script>
     <script>
-        const topicos = {
-            matematica: [
-                {
-                    id: 'numeros-reais',
-                    titulo: 'Números Reais',
-                    descricao: 'Compreenda o conjunto dos números reais e suas propriedades',
-                    conteudo: `
-                        <div class="secao">
-                            <h3>O que são Números Reais?</h3>
-                            <p>Os números reais são todos os números que podem ser representados em uma reta numérica. Incluem números naturais, inteiros, racionais e irracionais.</p>
-                        </div>
-                        <div class="secao">
-                            <h3>Exemplos Práticos</h3>
-                            <div class="exemplo">
-                                <div class="exemplo-titulo">Exemplo 1: Classificação</div>
-                                <p>5 é um número real (natural)</p>
-                                <p>-3 é um número real (inteiro)</p>
-                                <p>1/2 é um número real (racional)</p>
-                                <p>√2 é um número real (irracional)</p>
-                            </div>
-                        </div>
-                        <div class="secao">
-                            <h3>Exercício de Fixação</h3>
-                            <div class="exercicio">
-                                <div class="exercicio-titulo">Questão 1: Qual é um número irracional?</div>
-                                <div class="opcoes">
-                                    <div class="opcao"><input type="radio" name="q1"> A) 5</div>
-                                    <div class="opcao"><input type="radio" name="q1"> B) 1/3</div>
-                                    <div class="opcao"><input type="radio" name="q1"> C) √3</div>
-                                    <div class="opcao"><input type="radio" name="q1"> D) -2</div>
-                                </div>
-                            </div>
-                        </div>
-                    `
-                },
-                {
-                    id: 'operacoes-basicas',
-                    titulo: 'Operações Básicas',
-                    descricao: 'Aprenda as operações fundamentais: adição, subtração, multiplicação e divisão',
-                    conteudo: `
-                        <div class="secao">
-                            <h3>As Quatro Operações</h3>
-                            <p>As operações básicas são: adição (+), subtração (-), multiplicação (×) e divisão (÷).</p>
-                        </div>
-                        <div class="secao">
-                            <h3>Exemplos</h3>
-                            <div class="exemplo">
-                                <div class="exemplo-titulo">Adição</div>
-                                <p>5 + 3 = 8</p>
-                            </div>
-                            <div class="exemplo">
-                                <div class="exemplo-titulo">Subtração</div>
-                                <p>10 - 4 = 6</p>
-                            </div>
-                            <div class="exemplo">
-                                <div class="exemplo-titulo">Multiplicação</div>
-                                <p>3 × 4 = 12</p>
-                            </div>
-                            <div class="exemplo">
-                                <div class="exemplo-titulo">Divisão</div>
-                                <p>12 ÷ 3 = 4</p>
-                            </div>
-                        </div>
-                    `
-                },
-                {
-                    id: 'frações',
-                    titulo: 'Frações',
-                    descricao: 'Domine o conceito e operações com frações',
-                    conteudo: `
-                        <div class="secao">
-                            <h3>O que é uma Fração?</h3>
-                            <p>Uma fração representa uma parte de um todo. É escrita como numerador/denominador.</p>
-                        </div>
-                        <div class="secao">
-                            <h3>Exemplos</h3>
-                            <div class="exemplo">
-                                <div class="exemplo-titulo">Exemplo: 1/2</div>
-                                <p>Representa metade de algo</p>
-                            </div>
-                        </div>
-                    `
-                }
-            ],
-            historia: [
-                {
-                    id: 'idade-media',
-                    titulo: 'Idade Média',
-                    descricao: 'Explore o período medieval europeu',
-                    conteudo: `
-                        <div class="secao">
-                            <h3>O que foi a Idade Média?</h3>
-                            <p>A Idade Média foi um período histórico que durou aproximadamente 1000 anos, do século V ao XV.</p>
-                        </div>
-                    `
-                },
-                {
-                    id: 'renascenca',
-                    titulo: 'Renascença',
-                    descricao: 'Conheça o movimento cultural e artístico que transformou a Europa',
-                    conteudo: `
-                        <div class="secao">
-                            <h3>O que foi a Renascença?</h3>
-                            <p>A Renascença foi um movimento cultural que marcou a transição entre a Idade Média e a Idade Moderna.</p>
-                        </div>
-                    `
-                }
-            ]
-        };
+        let conteudoGlobal = {};
+        let disciplinaAtual = '';
+
+        async function carregarConteudo() {
+            try {
+                const response = await fetch('data/conteudo.json');
+                conteudoGlobal = await response.json();
+                carregarDisciplina();
+            } catch (error) {
+                console.error('Erro ao carregar conteúdo:', error);
+                document.getElementById('conteudoPrincipal').innerHTML = '<p>Erro ao carregar conteúdo</p>';
+            }
+        }
 
         function carregarDisciplina() {
             const params = new URLSearchParams(window.location.search);
-            const disciplina = params.get('disciplina') || 'matematica';
+            disciplinaAtual = params.get('disciplina') || 'matematica';
             
-            const disciplinas = {
-                matematica: { nome: 'Matemática', emoji: '📐' },
-                historia: { nome: 'História', emoji: '📜' }
-            };
+            const disciplina = conteudoGlobal.disciplinas[disciplinaAtual];
+            
+            if (!disciplina) {
+                document.getElementById('conteudoPrincipal').innerHTML = '<p>Disciplina não encontrada</p>';
+                return;
+            }
 
-            const disc = disciplinas[disciplina];
-            document.getElementById('disciplinaTitulo').textContent = `${disc.emoji} ${disc.nome}`;
-            document.getElementById('disciplinaDesc').textContent = `Conteúdo completo de ${disc.nome}`;
+            document.getElementById('disciplinaTitulo').textContent = `${disciplina.icone} ${disciplina.nome}`;
 
-            const topicosList = topicos[disciplina] || [];
+            const topicosList = disciplina.topicos || [];
             const listHTML = topicosList.map((t, i) => 
-                `<li><a href="#" onclick="selecionarTopico(${i})">${t.titulo}</a></li>`
+                `<li><a onclick="selecionarTopico(${i})" style="cursor: pointer;">${t.titulo}</a></li>`
             ).join('');
             document.getElementById('topicosLista').innerHTML = listHTML;
 
@@ -390,9 +347,8 @@
         }
 
         function selecionarTopico(index) {
-            const params = new URLSearchParams(window.location.search);
-            const disciplina = params.get('disciplina') || 'matematica';
-            const topicosList = topicos[disciplina] || [];
+            const disciplina = conteudoGlobal.disciplinas[disciplinaAtual];
+            const topicosList = disciplina.topicos || [];
             const topico = topicosList[index];
 
             if (!topico) return;
@@ -400,7 +356,53 @@
             let html = `
                 <h2>${topico.titulo}</h2>
                 <p class="topico-descricao">${topico.descricao}</p>
-                ${topico.conteudo}
+            `;
+
+            // Explicação
+            if (topico.conteudo.explicacao) {
+                html += `
+                    <div class="secao">
+                        <h3>📖 Explicação</h3>
+                        <p>${topico.conteudo.explicacao}</p>
+                    </div>
+                `;
+            }
+
+            // Exemplos
+            if (topico.conteudo.exemplos && topico.conteudo.exemplos.length > 0) {
+                html += `
+                    <div class="secao">
+                        <h3>💡 Exemplos</h3>
+                        <div class="exemplo">
+                            <div class="exemplo-titulo">Exemplos Práticos</div>
+                            ${topico.conteudo.exemplos.map(ex => `<p>• ${ex}</p>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Propriedades
+            if (topico.conteudo.propriedades && topico.conteudo.propriedades.length > 0) {
+                html += `
+                    <div class="secao">
+                        <h3>⚙️ Propriedades e Características</h3>
+                        <ul>
+                            ${topico.conteudo.propriedades.map(prop => `<li>${prop}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            // Exercício
+            html += `
+                <div class="secao">
+                    <h3>✏️ Exercício de Fixação</h3>
+                    <div class="exercicio">
+                        <div class="exercicio-titulo">Teste seu conhecimento</div>
+                        <p>Clique no botão abaixo para gerar exercícios com IA sobre este tópico!</p>
+                        <button class="btn-gerar" onclick="gerarExercicioComIA('${topico.titulo}')">🤖 Gerar Exercício com IA</button>
+                    </div>
+                </div>
             `;
 
             document.getElementById('conteudoPrincipal').innerHTML = html;
@@ -412,7 +414,53 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', carregarDisciplina);
+        async function gerarExercicioComIA(topico) {
+            const chave = localStorage.getItem('geminiApiKey');
+            
+            if (!chave) {
+                alert('Configure sua chave de API Gemini em Configurações primeiro!');
+                window.location.href = 'config-gemini.html';
+                return;
+            }
+
+            const botao = event.target;
+            botao.disabled = true;
+            botao.textContent = '⏳ Gerando exercício...';
+
+            try {
+                const prompt = `Gere 3 exercícios de múltipla escolha sobre "${topico}". 
+                Para cada exercício, forneça:
+                1. Pergunta clara e bem formulada
+                2. 4 opções (A, B, C, D)
+                3. Resposta correta
+                4. Explicação breve da resposta
+                
+                Formate de forma clara e legível.`;
+
+                const resultado = await gerarComGemini(prompt);
+
+                if (resultado.sucesso) {
+                    const conteudoAtual = document.getElementById('conteudoPrincipal').innerHTML;
+                    document.getElementById('conteudoPrincipal').innerHTML = conteudoAtual + `
+                        <div style="margin-top: 30px; padding: 20px; background: #f0f7ff; border-radius: 8px; border-left: 5px solid var(--cor-primaria);">
+                            <h3 style="color: var(--cor-primaria); margin-bottom: 15px;">🤖 Exercícios Gerados pela IA Gemini</h3>
+                            <div style="color: #555; line-height: 1.8; white-space: pre-wrap; font-size: 0.95rem;">
+                                ${resultado.conteudo}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    alert('Erro ao gerar exercício: ' + resultado.mensagem);
+                }
+            } catch (error) {
+                alert('Erro ao conectar com Gemini. Verifique sua chave de API.');
+            }
+
+            botao.disabled = false;
+            botao.textContent = '🤖 Gerar Exercício com IA';
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarConteudo);
     </script>
 </body>
 </html>
