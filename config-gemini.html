@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurar Gemini | SamuelPensante</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cor-primaria: #667eea;
+            --cor-secundaria: #764ba2;
+            --cor-sucesso: #27ae60;
+            --cor-erro: #e74c3c;
+            --cor-aviso: #f39c12;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        <script>
+            function verificarLogin() {
+                const loginData = localStorage.getItem('loginSite');
+                if (!loginData) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const { expiracao } = JSON.parse(loginData);
+                if (new Date().getTime() >= expiracao) {
+                    localStorage.removeItem('loginSite');
+                    window.location.href = 'login.html';
+                }
+            }
+            verificarLogin();
+        </script>
+
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 25px 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            color: var(--cor-primaria);
+            font-size: 1.8rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .btn-voltar {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #95a5a6;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-voltar:hover {
+            background: #7f8c8d;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            border-bottom: 2px solid var(--cor-primaria);
+            padding-bottom: 10px;
+        }
+
+        .alerta {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alerta-info {
+            background: #d6eaf8;
+            border-color: #3498db;
+            color: #1a5490;
+        }
+
+        .alerta-sucesso {
+            display: none;
+            background: #d5f4e6;
+            border-color: var(--cor-sucesso);
+            color: #155724;
+        }
+
+        .alerta-sucesso.show {
+            display: block;
+        }
+
+        .alerta-erro {
+            display: none;
+            background: #fadbd8;
+            border-color: var(--cor-erro);
+            color: #721c24;
+        }
+
+        .alerta-erro.show {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .botoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-salvar {
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            color: white;
+        }
+
+        .btn-salvar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-testar {
+            background: var(--cor-sucesso);
+            color: white;
+        }
+
+        .btn-testar:hover {
+            background: #229954;
+        }
+
+        .btn-limpar {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-limpar:hover {
+            background: #bdc3c7;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .status-indicador {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--cor-erro);
+        }
+
+        .status-indicador.ativo {
+            background: var(--cor-sucesso);
+        }
+
+        .status-texto {
+            flex: 1;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .info-box {
+            background: #f0f7ff;
+            border-left: 4px solid var(--cor-primaria);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .info-box h3 {
+            color: var(--cor-primaria);
+            margin-bottom: 10px;
+        }
+
+        .info-box ol {
+            margin-left: 20px;
+        }
+
+        .info-box li {
+            margin-bottom: 8px;
+        }
+
+        .info-box a {
+            color: var(--cor-primaria);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .info-box a:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--cor-primaria);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .container {
+                margin: 20px auto;
+            }
+
+            .botoes {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⚙️ Configurar Gemini</h1>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="btn-voltar">← Voltar</a>
+
+        <div id="alertaSucesso" class="alerta alerta-sucesso"></div>
+        <div id="alertaErro" class="alerta alerta-erro"></div>
+
+        <!-- INSTRUÇÕES -->
+        <div class="card">
+            <h2>🤖 Como Obter Sua Chave de API Gemini</h2>
+            
+            <div class="info-box">
+                <h3>Passo a Passo:</h3>
+                <ol>
+                    <li>Acesse <a href="https://ai.google.dev" target="_blank">ai.google.dev</a></li>
+                    <li>Clique em <strong>"Get API Key"</strong></li>
+                    <li>Clique em <strong>"Create API key in new project"</strong></li>
+                    <li>Copie a chave gerada (começa com "AIza...")</li>
+                    <li>Cole a chave no campo abaixo</li>
+                    <li>Clique em <strong>"Salvar Chave"</strong></li>
+                    <li>Clique em <strong>"Testar Conexão"</strong> para verificar</li>
+                </ol>
+            </div>
+
+            <div class="alerta alerta-info">
+                <strong>💡 Informação Importante:</strong><br>
+                Sua chave de API é salva <strong>localmente</strong> no seu navegador. Nunca é enviada para servidores externos. Você pode deletar a chave a qualquer momento.
+            </div>
+        </div>
+
+        <!-- CONFIGURAÇÃO -->
+        <div class="card">
+            <h2>🔑 Sua Chave de API Gemini</h2>
+
+            <div class="form-group">
+                <label for="chaveGemini">Cole sua chave de API aqui:</label>
+                <input 
+                    type="password" 
+                    id="chaveGemini" 
+                    placeholder="AIza... (sua chave de API)"
+                >
+            </div>
+
+            <div class="status">
+                <div class="status-indicador" id="statusIndicador"></div>
+                <div class="status-texto" id="statusTexto">Não configurado</div>
+            </div>
+
+            <div class="botoes">
+                <button class="btn btn-salvar" onclick="salvarChave()">💾 Salvar Chave</button>
+                <button class="btn btn-testar" onclick="testarConexao()">🧪 Testar Conexão</button>
+                <button class="btn btn-limpar" onclick="limparChave()">🗑️ Limpar</button>
+            </div>
+
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Processando...</p>
+            </div>
+        </div>
+
+        <!-- RECURSOS -->
+        <div class="card">
+            <h2>✨ Recursos com Gemini Ativado</h2>
+            
+            <div style="color: #7f8c8d; line-height: 1.8;">
+                <p><strong>Com sua chave de API configurada, você terá acesso a:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>✅ Geração automática de exercícios</li>
+                    <li>✅ Explicações personalizadas com IA</li>
+                    <li>✅ Respostas a dúvidas dos estudantes</li>
+                    <li>✅ Criação de planos de estudos</li>
+                    <li>✅ Análise de respostas dos alunos</li>
+                    <li>✅ Geração de questões de ENEM/Vestibular</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PRIVACIDADE -->
+        <div class="card">
+            <h2>🔒 Privacidade e Segurança</h2>
+            
+            <div style="color: #7f8c8d; line-height: 1.8;">
+                <p><strong>Sua privacidade é importante:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>✅ Chave salva localmente (não em servidores)</li>
+                    <li>✅ Dados não são rastreados</li>
+                    <li>✅ Você controla quando usar a IA</li>
+                    <li>✅ Pode deletar a chave a qualquer momento</li>
+                    <li>✅ Requisições vão direto para Google Gemini</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 SamuelPensante - Plataforma de Estudos</p>
+    </footer>
+
+    <script src="js/ia-gemini.js"></script>
+    <script>
+        // Carregar configuração ao abrir
+        window.addEventListener('load', function() {
+            verificarStatus();
+        });
+
+        function salvarChave() {
+            const chave = document.getElementById('chaveGemini').value.trim();
+            
+            if (!chave) {
+                mostrarErro('Por favor, digite sua chave de API');
+                return;
+            }
+
+            if (!chave.startsWith('AIza')) {
+                mostrarErro('A chave parece inválida. Deve começar com "AIza"');
+                return;
+            }
+
+            localStorage.setItem('geminiApiKey', chave);
+            mostrarSucesso('✅ Chave salva com sucesso!');
+            verificarStatus();
+        }
+
+        async function testarConexao() {
+            const chave = localStorage.getItem('geminiApiKey');
+            
+            if (!chave) {
+                mostrarErro('Configure a chave primeiro');
+                return;
+            }
+
+            document.getElementById('loading').classList.add('show');
+
+            try {
+                const resultado = await gerarComGemini('Responda com uma palavra: Funciona?');
+                
+                document.getElementById('loading').classList.remove('show');
+
+                if (resultado.sucesso) {
+                    mostrarSucesso('✅ Conexão com Gemini funcionando perfeitamente!');
+                } else {
+                    mostrarErro('❌ Erro: ' + resultado.mensagem);
+                }
+            } catch (error) {
+                document.getElementById('loading').classList.remove('show');
+                mostrarErro('❌ Erro ao conectar com Gemini');
+            }
+        }
+
+        function limparChave() {
+            if (confirm('Tem certeza que deseja limpar a chave?')) {
+                localStorage.removeItem('geminiApiKey');
+                document.getElementById('chaveGemini').value = '';
+                mostrarSucesso('Chave removida');
+                verificarStatus();
+            }
+        }
+
+        function verificarStatus() {
+            const chave = localStorage.getItem('geminiApiKey');
+            const indicador = document.getElementById('statusIndicador');
+            const texto = document.getElementById('statusTexto');
+
+            if (chave) {
+                document.getElementById('chaveGemini').value = chave.substring(0, 10) + '...';
+                indicador.classList.add('ativo');
+                texto.textContent = '✅ Configurado e pronto para usar';
+            } else {
+                document.getElementById('chaveGemini').value = '';
+                indicador.classList.remove('ativo');
+                texto.textContent = '❌ Não configurado';
+            }
+        }
+
+        function mostrarSucesso(mensagem) {
+            const alerta = document.getElementById('alertaSucesso');
+            alerta.textContent = mensagem;
+            alerta.classList.add('show');
+            setTimeout(() => alerta.classList.remove('show'), 5000);
+        }
+
+        function mostrarErro(mensagem) {
+            const alerta = document.getElementById('alertaErro');
+            alerta.textContent = mensagem;
+            alerta.classList.add('show');
+            setTimeout(() => alerta.classList.remove('show'), 5000);
+        }
+    </script>
+</body>
+</html>

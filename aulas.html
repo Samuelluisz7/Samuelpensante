@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas | SamuelPensante</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cor-primaria: #667eea;
+            --cor-secundaria: #764ba2;
+            --cor-sucesso: #27ae60;
+            --cor-aviso: #f39c12;
+            --cor-erro: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #2c3e50;
+        }
+
+        <script>
+            function verificarLogin() {
+                const loginData = localStorage.getItem('loginSite');
+                if (!loginData) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const { expiracao } = JSON.parse(loginData);
+                if (new Date().getTime() >= expiracao) {
+                    localStorage.removeItem('loginSite');
+                    window.location.href = 'login.html';
+                }
+            }
+            verificarLogin();
+        </script>
+
+        header {
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            color: white;
+            padding: 30px 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .btn-voltar {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #95a5a6;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-voltar:hover {
+            background: #7f8c8d;
+        }
+
+        .grid-aulas {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card-aula {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-top: 5px solid;
+        }
+
+        .card-aula:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-aula-icone {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .card-aula-titulo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .card-aula-descricao {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .card-aula-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #95a5a6;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-conteudo {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-fechar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #95a5a6;
+            transition: all 0.3s ease;
+        }
+
+        .modal-fechar:hover {
+            color: #2c3e50;
+        }
+
+        .aula-titulo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .aula-secao {
+            margin-bottom: 30px;
+        }
+
+        .aula-secao h3 {
+            font-size: 1.2rem;
+            color: var(--cor-primaria);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--cor-primaria);
+            padding-bottom: 10px;
+        }
+
+        .aula-secao p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .aula-secao ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .aula-secao li {
+            margin-bottom: 8px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .exemplo {
+            background: #f0f7ff;
+            border-left: 4px solid var(--cor-primaria);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .exemplo-titulo {
+            font-weight: 700;
+            color: var(--cor-primaria);
+            margin-bottom: 10px;
+        }
+
+        .exercicio {
+            background: #fef5e7;
+            border-left: 4px solid var(--cor-aviso);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .exercicio-titulo {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .opcoes {
+            margin-left: 20px;
+        }
+
+        .opcao {
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .opcao input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        .btn-gerar-exercicio {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-gerar-exercicio:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--cor-primaria);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .modal-conteudo {
+                padding: 20px;
+            }
+
+            .grid-aulas {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 Aulas Completas</h1>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="btn-voltar">← Voltar</a>
+
+        <div class="grid-aulas" id="gridAulas"></div>
+    </div>
+
+    <!-- MODAL DE AULA -->
+    <div class="modal" id="modalAula">
+        <div class="modal-conteudo">
+            <span class="modal-fechar" onclick="fecharModal()">×</span>
+            <div id="conteudoAula"></div>
+            <button class="btn-gerar-exercicio" onclick="gerarExercicioComIA()">🤖 Gerar Exercício com IA</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 SamuelPensante</p>
+    </footer>
+
+    <script src="js/ia-gemini.js"></script>
+    <script>
+        const aulas = [
+            {
+                id: 'numeros-reais',
+                titulo: 'Números Reais',
+                disciplina: 'Matemática',
+                icone: '📐',
+                cor: '#3498db',
+                duracao: '15 min',
+                conteudo: `
+                    <div class="aula-titulo">📐 Números Reais</div>
+                    
+                    <div class="aula-secao">
+                        <h3>O que são Números Reais?</h3>
+                        <p>Os números reais são todos os números que podem ser representados em uma reta numérica. Eles incluem:</p>
+                        <ul>
+                            <li><strong>Números Naturais:</strong> 0, 1, 2, 3, ...</li>
+                            <li><strong>Números Inteiros:</strong> ..., -2, -1, 0, 1, 2, ...</li>
+                            <li><strong>Números Racionais:</strong> 1/2, 3/4, -5/3, ...</li>
+                            <li><strong>Números Irracionais:</strong> √2, π, e, ...</li>
+                        </ul>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Exemplos Práticos</h3>
+                        <div class="exemplo">
+                            <div class="exemplo-titulo">Exemplo 1: Classificação de Números</div>
+                            <p><strong>5</strong> é um número real (natural)</p>
+                            <p><strong>-3</strong> é um número real (inteiro)</p>
+                            <p><strong>1/2</strong> é um número real (racional)</p>
+                            <p><strong>√2 ≈ 1,414...</strong> é um número real (irracional)</p>
+                        </div>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Propriedades dos Números Reais</h3>
+                        <ul>
+                            <li><strong>Fechamento:</strong> A soma ou produto de dois números reais é sempre um número real</li>
+                            <li><strong>Comutatividade:</strong> a + b = b + a e a × b = b × a</li>
+                            <li><strong>Associatividade:</strong> (a + b) + c = a + (b + c)</li>
+                            <li><strong>Distributividade:</strong> a × (b + c) = (a × b) + (a × c)</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 'fotossintese',
+                titulo: 'Fotossíntese',
+                disciplina: 'Biologia',
+                icone: '🌱',
+                cor: '#27ae60',
+                duracao: '20 min',
+                conteudo: `
+                    <div class="aula-titulo">🌱 Fotossíntese</div>
+                    
+                    <div class="aula-secao">
+                        <h3>O que é Fotossíntese?</h3>
+                        <p>Fotossíntese é o processo biológico em que as plantas, algas e algumas bactérias convertem luz solar em energia química, produzindo glicose e oxigênio.</p>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Equação da Fotossíntese</h3>
+                        <div class="exemplo">
+                            <div class="exemplo-titulo">Reação Química</div>
+                            <p>6CO₂ + 6H₂O + luz → C₆H₁₂O₆ + 6O₂</p>
+                            <p><strong>Dióxido de carbono + Água + Luz → Glicose + Oxigênio</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Fases da Fotossíntese</h3>
+                        <ul>
+                            <li><strong>Fase Luminosa:</strong> Ocorre nos tilacoides, usa luz solar</li>
+                            <li><strong>Fase Escura (Ciclo de Calvin):</strong> Ocorre no estroma, produz glicose</li>
+                        </ul>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Importância da Fotossíntese</h3>
+                        <ul>
+                            <li>Produz oxigênio necessário para a respiração</li>
+                            <li>Produz glicose como fonte de energia</li>
+                            <li>Base da cadeia alimentar</li>
+                            <li>Reduz CO₂ da atmosfera</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 'revolucao-francesa',
+                titulo: 'Revolução Francesa',
+                disciplina: 'História',
+                icone: '⚔️',
+                cor: '#d35400',
+                duracao: '25 min',
+                conteudo: `
+                    <div class="aula-titulo">⚔️ Revolução Francesa</div>
+                    
+                    <div class="aula-secao">
+                        <h3>Contexto Histórico</h3>
+                        <p>A Revolução Francesa (1789-1799) foi um período de transformação social, política e cultural que mudou a história da Europa e do mundo.</p>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Causas da Revolução</h3>
+                        <ul>
+                            <li>Crise econômica e endividamento do reino</li>
+                            <li>Desigualdade social extrema (3 Estados)</li>
+                            <li>Fome e miséria do povo</li>
+                            <li>Influência do Iluminismo</li>
+                            <li>Absolutismo do rei Luís XVI</li>
+                        </ul>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Principais Eventos</h3>
+                        <div class="exemplo">
+                            <div class="exemplo-titulo">Cronologia</div>
+                            <p><strong>1789:</strong> Queda da Bastilha (14 de julho)</p>
+                            <p><strong>1789:</strong> Declaração dos Direitos do Homem</p>
+                            <p><strong>1793:</strong> Execução de Luís XVI</p>
+                            <p><strong>1799:</strong> Golpe de Napoleão</p>
+                        </div>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Consequências</h3>
+                        <ul>
+                            <li>Fim do absolutismo monárquico</li>
+                            <li>Estabelecimento de direitos humanos</li>
+                            <li>Surgimento do nacionalismo</li>
+                            <li>Inspiração para revoluções em outros países</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 'equacao-segundo-grau',
+                titulo: 'Equação de 2º Grau',
+                disciplina: 'Matemática',
+                icone: '📊',
+                cor: '#3498db',
+                duracao: '18 min',
+                conteudo: `
+                    <div class="aula-titulo">📊 Equação de 2º Grau</div>
+                    
+                    <div class="aula-secao">
+                        <h3>Forma Geral</h3>
+                        <div class="exemplo">
+                            <div class="exemplo-titulo">Equação Quadrática</div>
+                            <p><strong>ax² + bx + c = 0</strong></p>
+                            <p>Onde: a ≠ 0, b e c são coeficientes reais</p>
+                        </div>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Fórmula de Bhaskara</h3>
+                        <div class="exemplo">
+                            <div class="exemplo-titulo">Resolução</div>
+                            <p><strong>x = (-b ± √Δ) / 2a</strong></p>
+                            <p>Onde: <strong>Δ = b² - 4ac</strong> (discriminante)</p>
+                        </div>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Exemplo Prático</h3>
+                        <div class="exemplo">
+                            <div class="exemplo-titulo">Resolver: x² - 5x + 6 = 0</div>
+                            <p><strong>a = 1, b = -5, c = 6</strong></p>
+                            <p><strong>Δ = (-5)² - 4(1)(6) = 25 - 24 = 1</strong></p>
+                            <p><strong>x = (5 ± 1) / 2</strong></p>
+                            <p><strong>x₁ = 3 e x₂ = 2</strong></p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'literatura-brasileira',
+                titulo: 'Literatura Brasileira',
+                disciplina: 'Português',
+                icone: '📖',
+                cor: '#2980b9',
+                duracao: '22 min',
+                conteudo: `
+                    <div class="aula-titulo">📖 Literatura Brasileira</div>
+                    
+                    <div class="aula-secao">
+                        <h3>Períodos Literários</h3>
+                        <ul>
+                            <li><strong>Quinhentismo:</strong> Primeiras manifestações literárias</li>
+                            <li><strong>Barroco:</strong> Século XVII - Dualismo e contradição</li>
+                            <li><strong>Arcadismo:</strong> Século XVIII - Razão e natureza</li>
+                            <li><strong>Romantismo:</strong> Século XIX - Emoção e individualismo</li>
+                            <li><strong>Realismo:</strong> Final do século XIX - Crítica social</li>
+                            <li><strong>Modernismo:</strong> Século XX - Inovação e experimentação</li>
+                        </ul>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Principais Autores</h3>
+                        <div class="exemplo">
+                            <div class="exemplo-titulo">Clássicos da Literatura Brasileira</div>
+                            <p><strong>Machado de Assis:</strong> Dom Casmurro, Memórias Póstumas de Brás Cubas</p>
+                            <p><strong>Carlos Drummond de Andrade:</strong> Sentimento do Mundo, Claro Enigma</p>
+                            <p><strong>Jorge Amado:</strong> Capitães da Areia, Gabriela, Cravo e Canela</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'tabela-periodica',
+                titulo: 'Tabela Periódica',
+                disciplina: 'Química',
+                icone: '⚗️',
+                cor: '#9b59b6',
+                duracao: '20 min',
+                conteudo: `
+                    <div class="aula-titulo">⚗️ Tabela Periódica</div>
+                    
+                    <div class="aula-secao">
+                        <h3>O que é a Tabela Periódica?</h3>
+                        <p>A tabela periódica é uma organização sistemática de todos os elementos químicos conhecidos, ordenados por número atômico e propriedades químicas.</p>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Organização</h3>
+                        <ul>
+                            <li><strong>Linhas (Períodos):</strong> Indicam o número de camadas eletrônicas</li>
+                            <li><strong>Colunas (Grupos):</strong> Indicam propriedades químicas semelhantes</li>
+                        </ul>
+                    </div>
+
+                    <div class="aula-secao">
+                        <h3>Principais Grupos</h3>
+                        <div class="exemplo">
+                            <div class="exemplo-titulo">Classificação</div>
+                            <p><strong>Metais:</strong> Conduzem eletricidade, maleáveis</p>
+                            <p><strong>Não-metais:</strong> Isolantes térmicos e elétricos</p>
+                            <p><strong>Semimetais:</strong> Propriedades intermediárias</p>
+                            <p><strong>Gases Nobres:</strong> Muito estáveis, pouco reativos</p>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        function carregarAulas() {
+            const grid = document.getElementById('gridAulas');
+            let html = '';
+
+            aulas.forEach(aula => {
+                html += `
+                    <div class="card-aula" style="border-top-color: ${aula.cor};" onclick="abrirAula('${aula.id}')">
+                        <div class="card-aula-icone">${aula.icone}</div>
+                        <div class="card-aula-titulo">${aula.titulo}</div>
+                        <div class="card-aula-descricao">${aula.disciplina}</div>
+                        <div class="card-aula-info">
+                            <span>⏱️ ${aula.duracao}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        function abrirAula(id) {
+            const aula = aulas.find(a => a.id === id);
+            if (aula) {
+                document.getElementById('conteudoAula').innerHTML = aula.conteudo;
+                document.getElementById('modalAula').classList.add('show');
+            }
+        }
+
+        function fecharModal() {
+            document.getElementById('modalAula').classList.remove('show');
+        }
+
+        async function gerarExercicioComIA() {
+            const chave = localStorage.getItem('geminiApiKey');
+            
+            if (!chave) {
+                alert('Configure sua chave de API Gemini em Configurações primeiro!');
+                window.location.href = 'config-gemini.html';
+                return;
+            }
+
+            const modal = document.getElementById('modalAula');
+            const conteudo = document.getElementById('conteudoAula');
+            const botao = event.target;
+
+            botao.disabled = true;
+            botao.textContent = '⏳ Gerando exercício...';
+
+            try {
+                const resultado = await gerarComGemini(`
+                    Gere 3 exercícios de múltipla escolha sobre o conteúdo acima.
+                    Para cada exercício, forneça:
+                    1. Pergunta clara
+                    2. 4 opções (A, B, C, D)
+                    3. Resposta correta
+                    4. Explicação breve
+                `);
+
+                if (resultado.sucesso) {
+                    conteudo.innerHTML += `
+                        <div style="margin-top: 30px; padding: 20px; background: #f0f7ff; border-radius: 8px;">
+                            <h3 style="color: var(--cor-primaria); margin-bottom: 15px;">🤖 Exercícios Gerados pela IA</h3>
+                            <div style="color: #555; line-height: 1.8; white-space: pre-wrap;">
+                                ${resultado.conteudo}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    alert('Erro ao gerar exercício: ' + resultado.mensagem);
+                }
+            } catch (error) {
+                alert('Erro ao conectar com Gemini');
+            }
+
+            botao.disabled = false;
+            botao.textContent = '🤖 Gerar Exercício com IA';
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarAulas);
+    </script>
+</body>
+</html>
