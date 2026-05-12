@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disciplina | SamuelPensante</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cor-primaria: #667eea;
+            --cor-secundaria: #764ba2;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #2c3e50;
+        }
+
+        <script>
+            function verificarLogin() {
+                const loginData = localStorage.getItem('loginSite');
+                if (!loginData) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const { expiracao } = JSON.parse(loginData);
+                if (new Date().getTime() >= expiracao) {
+                    localStorage.removeItem('loginSite');
+                    window.location.href = 'login.html';
+                }
+            }
+            verificarLogin();
+        </script>
+
+        header {
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            color: white;
+            padding: 30px 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar h3 {
+            color: var(--cor-primaria);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .topicos-lista {
+            list-style: none;
+        }
+
+        .topicos-lista li {
+            margin-bottom: 10px;
+        }
+
+        .topicos-lista a {
+            color: #7f8c8d;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .topicos-lista a:hover,
+        .topicos-lista a.ativo {
+            background: var(--cor-primaria);
+            color: white;
+        }
+
+        .conteudo {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .topico {
+            margin-bottom: 40px;
+            display: none;
+        }
+
+        .topico.ativo {
+            display: block;
+        }
+
+        .topico h2 {
+            color: var(--cor-primaria);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .topico-descricao {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .secao {
+            margin-bottom: 30px;
+        }
+
+        .secao h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--cor-primaria);
+            padding-bottom: 10px;
+        }
+
+        .secao p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .exemplo {
+            background: #f8f9fa;
+            border-left: 4px solid var(--cor-primaria);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .exemplo-titulo {
+            font-weight: 700;
+            color: var(--cor-primaria);
+            margin-bottom: 10px;
+        }
+
+        .exercicio {
+            background: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .exercicio-titulo {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .opcoes {
+            margin-left: 20px;
+        }
+
+        .opcao {
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .opcao input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        .btn-voltar {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #95a5a6;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-voltar:hover {
+            background: #7f8c8d;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 id="disciplinaTitulo">📚 Disciplina</h1>
+        <p id="disciplinaDesc">Conteúdo educacional completo</p>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>📖 Tópicos</h3>
+            <ul class="topicos-lista" id="topicosLista"></ul>
+        </aside>
+
+        <main class="conteudo">
+            <a href="index.html" class="btn-voltar">← Voltar</a>
+            <div id="conteudoPrincipal"></div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 SamuelPensante</p>
+    </footer>
+
+    <script>
+        const topicos = {
+            matematica: [
+                {
+                    id: 'numeros-reais',
+                    titulo: 'Números Reais',
+                    descricao: 'Compreenda o conjunto dos números reais e suas propriedades',
+                    conteudo: `
+                        <div class="secao">
+                            <h3>O que são Números Reais?</h3>
+                            <p>Os números reais são todos os números que podem ser representados em uma reta numérica. Incluem números naturais, inteiros, racionais e irracionais.</p>
+                        </div>
+                        <div class="secao">
+                            <h3>Exemplos Práticos</h3>
+                            <div class="exemplo">
+                                <div class="exemplo-titulo">Exemplo 1: Classificação</div>
+                                <p>5 é um número real (natural)</p>
+                                <p>-3 é um número real (inteiro)</p>
+                                <p>1/2 é um número real (racional)</p>
+                                <p>√2 é um número real (irracional)</p>
+                            </div>
+                        </div>
+                        <div class="secao">
+                            <h3>Exercício de Fixação</h3>
+                            <div class="exercicio">
+                                <div class="exercicio-titulo">Questão 1: Qual é um número irracional?</div>
+                                <div class="opcoes">
+                                    <div class="opcao"><input type="radio" name="q1"> A) 5</div>
+                                    <div class="opcao"><input type="radio" name="q1"> B) 1/3</div>
+                                    <div class="opcao"><input type="radio" name="q1"> C) √3</div>
+                                    <div class="opcao"><input type="radio" name="q1"> D) -2</div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'operacoes-basicas',
+                    titulo: 'Operações Básicas',
+                    descricao: 'Aprenda as operações fundamentais: adição, subtração, multiplicação e divisão',
+                    conteudo: `
+                        <div class="secao">
+                            <h3>As Quatro Operações</h3>
+                            <p>As operações básicas são: adição (+), subtração (-), multiplicação (×) e divisão (÷).</p>
+                        </div>
+                        <div class="secao">
+                            <h3>Exemplos</h3>
+                            <div class="exemplo">
+                                <div class="exemplo-titulo">Adição</div>
+                                <p>5 + 3 = 8</p>
+                            </div>
+                            <div class="exemplo">
+                                <div class="exemplo-titulo">Subtração</div>
+                                <p>10 - 4 = 6</p>
+                            </div>
+                            <div class="exemplo">
+                                <div class="exemplo-titulo">Multiplicação</div>
+                                <p>3 × 4 = 12</p>
+                            </div>
+                            <div class="exemplo">
+                                <div class="exemplo-titulo">Divisão</div>
+                                <p>12 ÷ 3 = 4</p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'frações',
+                    titulo: 'Frações',
+                    descricao: 'Domine o conceito e operações com frações',
+                    conteudo: `
+                        <div class="secao">
+                            <h3>O que é uma Fração?</h3>
+                            <p>Uma fração representa uma parte de um todo. É escrita como numerador/denominador.</p>
+                        </div>
+                        <div class="secao">
+                            <h3>Exemplos</h3>
+                            <div class="exemplo">
+                                <div class="exemplo-titulo">Exemplo: 1/2</div>
+                                <p>Representa metade de algo</p>
+                            </div>
+                        </div>
+                    `
+                }
+            ],
+            historia: [
+                {
+                    id: 'idade-media',
+                    titulo: 'Idade Média',
+                    descricao: 'Explore o período medieval europeu',
+                    conteudo: `
+                        <div class="secao">
+                            <h3>O que foi a Idade Média?</h3>
+                            <p>A Idade Média foi um período histórico que durou aproximadamente 1000 anos, do século V ao XV.</p>
+                        </div>
+                    `
+                },
+                {
+                    id: 'renascenca',
+                    titulo: 'Renascença',
+                    descricao: 'Conheça o movimento cultural e artístico que transformou a Europa',
+                    conteudo: `
+                        <div class="secao">
+                            <h3>O que foi a Renascença?</h3>
+                            <p>A Renascença foi um movimento cultural que marcou a transição entre a Idade Média e a Idade Moderna.</p>
+                        </div>
+                    `
+                }
+            ]
+        };
+
+        function carregarDisciplina() {
+            const params = new URLSearchParams(window.location.search);
+            const disciplina = params.get('disciplina') || 'matematica';
+            
+            const disciplinas = {
+                matematica: { nome: 'Matemática', emoji: '📐' },
+                historia: { nome: 'História', emoji: '📜' }
+            };
+
+            const disc = disciplinas[disciplina];
+            document.getElementById('disciplinaTitulo').textContent = `${disc.emoji} ${disc.nome}`;
+            document.getElementById('disciplinaDesc').textContent = `Conteúdo completo de ${disc.nome}`;
+
+            const topicosList = topicos[disciplina] || [];
+            const listHTML = topicosList.map((t, i) => 
+                `<li><a href="#" onclick="selecionarTopico(${i})">${t.titulo}</a></li>`
+            ).join('');
+            document.getElementById('topicosLista').innerHTML = listHTML;
+
+            if (topicosList.length > 0) {
+                selecionarTopico(0);
+            }
+        }
+
+        function selecionarTopico(index) {
+            const params = new URLSearchParams(window.location.search);
+            const disciplina = params.get('disciplina') || 'matematica';
+            const topicosList = topicos[disciplina] || [];
+            const topico = topicosList[index];
+
+            if (!topico) return;
+
+            let html = `
+                <h2>${topico.titulo}</h2>
+                <p class="topico-descricao">${topico.descricao}</p>
+                ${topico.conteudo}
+            `;
+
+            document.getElementById('conteudoPrincipal').innerHTML = html;
+
+            // Marcar como ativo
+            document.querySelectorAll('.topicos-lista a').forEach((a, i) => {
+                a.classList.remove('ativo');
+                if (i === index) a.classList.add('ativo');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarDisciplina);
+    </script>
+</body>
+</html>

@@ -3,181 +3,677 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Site de Estudos de Matemática</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script>
-        // Verificar se o usuário está logado
-        function verificarLogin() {
-            const loginData = localStorage.getItem('loginSite');
-            
-            if (!loginData) {
-                // Não está logado, redirecionar para login
-                window.location.href = 'login.html';
-                return;
+    <title>SamuelPensante - Plataforma de Estudos com IA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cor-primaria: #667eea;
+            --cor-secundaria: #764ba2;
+            --cor-sucesso: #27ae60;
+            --cor-aviso: #f39c12;
+            --cor-erro: #e74c3c;
+            --cor-info: #3498db;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+        }
+
+        /* Verificação de Login */
+        <script>
+            function verificarLogin() {
+                const loginData = localStorage.getItem('loginSite');
+                if (!loginData) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const { expiracao } = JSON.parse(loginData);
+                if (new Date().getTime() >= expiracao) {
+                    localStorage.removeItem('loginSite');
+                    window.location.href = 'login.html';
+                }
             }
-            
-            const { expiracao } = JSON.parse(loginData);
-            const agora = new Date().getTime();
-            
-            if (agora >= expiracao) {
-                // Sessão expirou
-                localStorage.removeItem('loginSite');
-                window.location.href = 'login.html';
+            verificarLogin();
+        </script>
+
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 25px 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            color: var(--cor-primaria);
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .secao-titulo {
+            color: white;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-weight: 700;
+        }
+
+        .barra-pesquisa {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .barra-pesquisa h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .pesquisa-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .pesquisa-container input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .pesquisa-container input:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .pesquisa-container button {
+            padding: 14px 30px;
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .pesquisa-container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .filtros {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filtro-btn {
+            padding: 10px 18px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .filtro-btn:hover,
+        .filtro-btn.ativo {
+            background: var(--cor-primaria);
+            color: white;
+            border-color: var(--cor-primaria);
+        }
+
+        .resultados-pesquisa {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .resultados-pesquisa.show {
+            display: block;
+        }
+
+        .resultado-item {
+            padding: 15px;
+            border-bottom: 1px solid #ecf0f1;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .resultado-item:hover {
+            background: #f8f9fa;
+            padding-left: 20px;
+        }
+
+        .resultado-titulo {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .resultado-descricao {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .grid-disciplinas {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .card-disciplina {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-top: 5px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-disciplina:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-disciplina::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-disciplina:hover::before {
+            opacity: 1;
+        }
+
+        .card-icone {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .card-nome {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .card-descricao {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .card-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #95a5a6;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        .secao-rapida {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .secao-rapida h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .botoes-rapidos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .btn-rapido {
+            padding: 18px;
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            font-size: 1rem;
+        }
+
+        .btn-rapido:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-sair {
+            background: linear-gradient(135deg, var(--cor-erro), #c0392b) !important;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--cor-primaria);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alerta {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alerta-info {
+            background: #d6eaf8;
+            border-color: var(--cor-info);
+            color: #1a5490;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .secao-titulo {
+                font-size: 1.5rem;
+            }
+
+            .grid-disciplinas {
+                grid-template-columns: 1fr;
+            }
+
+            .pesquisa-container {
+                flex-direction: column;
+            }
+
+            .barra-pesquisa {
+                padding: 20px;
             }
         }
-        
-        // Verificar ao carregar a página
-        verificarLogin();
-    </script>
+    </style>
 </head>
 <body>
-    <!-- HEADER -->
     <header>
-        <h1>📚 Matemática do Zero ao Avançado</h1>
-        <p>Seu espaço de estudos organizado e fácil de usar</p>
+        <h1>📚 SamuelPensante</h1>
+        <p>Sua plataforma completa de estudos com IA integrada</p>
     </header>
 
-    <!-- NAVEGAÇÃO -->
-    <nav>
-        <ul>
-            <li><a href="index.html" class="active">Início</a></li>
-            <li><a href="pages/matematica-basica/index.html">Matemática Básica</a></li>
-            <li><a href="pages/fisica/index.html">Física</a></li>
-            <li><a href="pages/solucoes/index.html">Soluções Matemáticas</a></li>
-            <li><a href="pesquisar-materia.html">🔍 Pesquisar Matéria</a></li>
-            <li><a href="piramide-conhecimento.html">🔺 Pirâmide</a></li>
-        </ul>
-    </nav>
-
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main>
-        <article>
-            <h2>Bem-vindo ao seu Site de Estudos! 🎓</h2>
-            <p>
-                Este é um espaço dedicado para organizar e aprender os conteúdos de forma clara, prática e eficiente. 
-                Aqui você encontrará explicações simples, exemplos práticos e exercícios de fixação para testar seu conhecimento.
-            </p>
-
-            <div class="dica">
-                <strong>💡 Dica:</strong> Navegue pelas seções usando o menu acima. Cada aula possui explicações, exemplos e exercícios para você praticar!
+    <div class="container">
+        <!-- BARRA DE PESQUISA -->
+        <div class="barra-pesquisa">
+            <h2>🔍 Pesquisar Tópico</h2>
+            <div class="pesquisa-container">
+                <input 
+                    type="text" 
+                    id="inputPesquisa" 
+                    placeholder="Digite um tópico (ex: Fotossíntese, Revolução Francesa, Equação de 2º grau...)"
+                    onkeypress="if(event.key==='Enter') pesquisarGlobal()"
+                >
+                <button onclick="pesquisarGlobal()">🔍 Pesquisar</button>
             </div>
 
-            <h3>Como usar este site?</h3>
-            <p>
-                Este site foi organizado em três grandes áreas de estudo. Cada uma delas contém aulas estruturadas 
-                com o mesmo padrão, facilitando sua aprendizagem:
-            </p>
-
-            <div class="grid-aulas">
-                <div class="card-aula">
-                    <div class="card-aula-header">
-                        <div class="card-aula-numero">📐</div>
-                        <div class="card-aula-titulo">Matemática Básica</div>
-                    </div>
-                    <div class="card-aula-body">
-                        <p class="card-aula-descricao">
-                            Fundamentos essenciais da matemática, do zero até frações. 
-                            Perfeito para consolidar a base.
-                        </p>
-                        <a href="pages/matematica-basica/index.html" class="card-aula-link">Acessar →</a>
-                    </div>
-                </div>
-
-                <div class="card-aula">
-                    <div class="card-aula-header">
-                        <div class="card-aula-numero">⚡</div>
-                        <div class="card-aula-titulo">Física</div>
-                    </div>
-                    <div class="card-aula-body">
-                        <p class="card-aula-descricao">
-                            Conceitos de física com explicações detalhadas, exemplos práticos 
-                            e muitas figuras para visualizar.
-                        </p>
-                        <a href="pages/fisica/index.html" class="card-aula-link">Acessar →</a>
-                    </div>
-                </div>
-
-                <div class="card-aula">
-                    <div class="card-aula-header">
-                        <div class="card-aula-numero">✨</div>
-                        <div class="card-aula-titulo">Soluções Matemáticas</div>
-                    </div>
-                    <div class="card-aula-body">
-                        <p class="card-aula-descricao">
-                            Aulas específicas (1 a 11) com soluções matemáticas avançadas 
-                            e integradas com a matemática básica.
-                        </p>
-                        <a href="pages/solucoes/index.html" class="card-aula-link">Acessar →</a>
-                    </div>
-                </div>
+            <div class="filtros">
+                <button class="filtro-btn ativo" onclick="filtrarDisciplina('todas')">Todas</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('matematica')">Matemática</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('historia')">História</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('portugues')">Português</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('quimica')">Química</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('biologia')">Biologia</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('fisica')">Física</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('ingles')">Inglês</button>
             </div>
 
-            <h3>Estrutura de cada aula</h3>
-            <p>
-                Todas as aulas seguem um padrão consistente para facilitar seu aprendizado:
-            </p>
+            <div class="resultados-pesquisa" id="resultadosPesquisa"></div>
+        </div>
 
-            <div class="secao-explicacao">
-                <h4>📖 Explicações Simples</h4>
-                <p>
-                    Conceitos explicados com linguagem clara e fácil de entender, 
-                    sem complicações desnecessárias.
-                </p>
+        <!-- DISCIPLINAS -->
+        <h2 class="secao-titulo">📚 Todas as Disciplinas</h2>
+        <div class="grid-disciplinas" id="gridDisciplinas"></div>
+
+        <!-- SEÇÃO RÁPIDA -->
+        <div class="secao-rapida">
+            <h3>⚡ Acesso Rápido</h3>
+            <div class="botoes-rapidos">
+                <button class="btn-rapido" onclick="abrirPesquisa()">🔍 Pesquisa Avançada</button>
+                <button class="btn-rapido" onclick="abrirPiramide()">🔺 Pirâmide de Conhecimento</button>
+                <button class="btn-rapido" onclick="abrirConfiguracoes()">⚙️ Configurações</button>
+                <button class="btn-rapido btn-sair" onclick="fazerLogout()">🚪 Sair</button>
             </div>
+        </div>
+    </div>
 
-            <div class="secao-explicacao">
-                <h4>💡 Exemplos Práticos</h4>
-                <p>
-                    Exemplos do mundo real que ajudam a visualizar como aplicar o conceito 
-                    e resolver problemas semelhantes.
-                </p>
-            </div>
-
-            <div class="secao-explicacao">
-                <h4>🖼️ Imagens e Figuras</h4>
-                <p>
-                    Espaços dedicados para inserir figuras, gráficos e diagramas que 
-                    facilitam a compreensão visual.
-                </p>
-            </div>
-
-            <div class="secao-explicacao">
-                <h4>✅ Exercícios de Fixação</h4>
-                <p>
-                    Perguntas curtas no final de cada página para testar se você realmente 
-                    compreendeu o conteúdo.
-                </p>
-            </div>
-
-            <h3>Comece agora! 🚀</h3>
-            <p>
-                Escolha uma das áreas acima e comece a estudar. Recomendamos começar pela 
-                <strong>Matemática Básica</strong> se você está começando do zero!
-            </p>
-
-            <div class="texto-centro mt-40">
-                <a href="pages/matematica-basica/index.html" class="btn btn-primario">
-                    Ir para Matemática Básica
-                </a>
-            </div>
-        </article>
-    </main>    <!-- FOOTER -->
     <footer>
-        <p>&copy; 2026 Seu Site de Estudos</p>
+        <p>&copy; 2026 SamuelPensante - Plataforma de Estudos Completa</p>
         <p>
-            <a href="#" onclick="fazerLogout()">Sair da Conta</a>
+            <a href="#">Sobre</a> | 
+            <a href="#">Contato</a> | 
+            <a href="#">Feedback</a>
         </p>
     </footer>
 
+    <script src="js/ia-gemini.js"></script>
     <script>
+        const disciplinas = [
+            {
+                id: "matematica",
+                nome: "Matemática",
+                descricao: "Estude matemática do zero até conceitos avançados",
+                icone: "📐",
+                cor: "#3498db",
+                topicos: 45,
+                nivel: 5
+            },
+            {
+                id: "fisica",
+                nome: "Física",
+                descricao: "Explore os fenômenos da natureza e as leis do universo",
+                icone: "⚡",
+                cor: "#e74c3c",
+                topicos: 35,
+                nivel: 6
+            },
+            {
+                id: "quimica",
+                nome: "Química",
+                descricao: "Aprenda sobre elementos, reações e compostos",
+                icone: "🧪",
+                cor: "#9b59b6",
+                topicos: 40,
+                nivel: 5
+            },
+            {
+                id: "biologia",
+                nome: "Biologia",
+                descricao: "Estude a vida, células, organismos e ecossistemas",
+                icone: "🧬",
+                cor: "#27ae60",
+                topicos: 38,
+                nivel: 5
+            },
+            {
+                id: "historia",
+                nome: "História",
+                descricao: "Conheça os eventos que moldaram o mundo",
+                icone: "📜",
+                cor: "#d35400",
+                topicos: 50,
+                nivel: 4
+            },
+            {
+                id: "geografia",
+                nome: "Geografia",
+                descricao: "Explore o planeta, climas, populações e culturas",
+                icone: "🌍",
+                cor: "#16a085",
+                topicos: 42,
+                nivel: 4
+            },
+            {
+                id: "portugues",
+                nome: "Português",
+                descricao: "Domine a língua portuguesa, literatura e gramática",
+                icone: "📚",
+                cor: "#2980b9",
+                topicos: 48,
+                nivel: 4
+            },
+            {
+                id: "redacao",
+                nome: "Redação",
+                descricao: "Aprenda a escrever com clareza e persuasão",
+                icone: "✍️",
+                cor: "#8e44ad",
+                topicos: 25,
+                nivel: 5
+            },
+            {
+                id: "filosofia",
+                nome: "Filosofia",
+                descricao: "Explore grandes questões sobre existência e conhecimento",
+                icone: "🤔",
+                cor: "#34495e",
+                topicos: 30,
+                nivel: 6
+            },
+            {
+                id: "sociologia",
+                nome: "Sociologia",
+                descricao: "Entenda a sociedade, cultura e comportamento humano",
+                icone: "👥",
+                cor: "#c0392b",
+                topicos: 28,
+                nivel: 4
+            },
+            {
+                id: "ingles",
+                nome: "Inglês",
+                descricao: "Aprenda o idioma mais falado do mundo",
+                icone: "🌐",
+                cor: "#2c3e50",
+                topicos: 55,
+                nivel: 5
+            },
+            {
+                id: "artes",
+                nome: "Artes",
+                descricao: "Explore pintura, escultura, música e expressão criativa",
+                icone: "🎨",
+                cor: "#e67e22",
+                topicos: 32,
+                nivel: 3
+            },
+            {
+                id: "educacao-fisica",
+                nome: "Educação Física",
+                descricao: "Conheça esportes, saúde e bem-estar",
+                icone: "⚽",
+                cor: "#1abc9c",
+                topicos: 20,
+                nivel: 2
+            },
+            {
+                id: "espanhol",
+                nome: "Espanhol",
+                descricao: "Aprenda espanhol e explore a cultura hispânica",
+                icone: "🇪🇸",
+                cor: "#f39c12",
+                topicos: 40,
+                nivel: 5
+            },
+            {
+                id: "informatica",
+                nome: "Informática",
+                descricao: "Aprenda programação, redes e tecnologia",
+                icone: "💻",
+                cor: "#16a085",
+                topicos: 50,
+                nivel: 6
+            }
+        ];
+
+        function exibirDisciplinas() {
+            const grid = document.getElementById('gridDisciplinas');
+            let html = '';
+
+            disciplinas.forEach(disc => {
+                html += `
+                    <div class="card-disciplina" style="border-top-color: ${disc.cor};" onclick="abrirDisciplina('${disc.id}')">
+                        <div class="card-icone">${disc.icone}</div>
+                        <div class="card-nome">${disc.nome}</div>
+                        <div class="card-descricao">${disc.descricao}</div>
+                        <div class="card-info">
+                            <span>📖 ${disc.topicos} tópicos</span>
+                            <span>📊 Nível ${disc.nivel}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        async function pesquisarGlobal() {
+            const termo = document.getElementById('inputPesquisa').value.trim();
+            
+            if (!termo) {
+                alert('Digite um termo para pesquisar');
+                return;
+            }
+
+            const resultados = document.getElementById('resultadosPesquisa');
+            resultados.innerHTML = '<div class="loading"><div class="spinner"></div><p>Pesquisando...</p></div>';
+            resultados.classList.add('show');
+
+            try {
+                // Buscar na Wikipédia
+                const wikiResult = await buscarWikipedia(termo);
+                
+                let html = '';
+                if (wikiResult.sucesso) {
+                    html += `
+                        <div class="resultado-item">
+                            <div class="resultado-titulo">📖 ${wikiResult.titulo}</div>
+                            <div class="resultado-descricao">${wikiResult.conteudo.substring(0, 150)}...</div>
+                            <a href="${wikiResult.url}" target="_blank" style="color: var(--cor-primaria); font-weight: 600;">Ver no Wikipédia →</a>
+                        </div>
+                    `;
+                } else {
+                    html += `<div class="resultado-item"><div class="resultado-descricao">Nenhum resultado encontrado</div></div>`;
+                }
+
+                resultados.innerHTML = html;
+            } catch (error) {
+                resultados.innerHTML = '<div class="resultado-item"><div class="resultado-descricao">Erro ao pesquisar</div></div>';
+            }
+        }
+
+        function filtrarDisciplina(disc) {
+            document.querySelectorAll('.filtro-btn').forEach(btn => {
+                btn.classList.remove('ativo');
+            });
+            event.target.classList.add('ativo');
+        }
+
+        function abrirDisciplina(id) {
+            const disc = disciplinas.find(d => d.id === id);
+            alert(`📚 ${disc.nome}\n\n${disc.descricao}\n\nEm breve: Página completa com todos os tópicos!`);
+        }
+
+        function abrirPesquisa() {
+            document.getElementById('inputPesquisa').focus();
+        }
+
+        function abrirPiramide() {
+            alert('🔺 Pirâmide de Conhecimento\n\nEm breve: Visualização interativa de todos os tópicos!');
+        }
+
+        function abrirConfiguracoes() {
+            alert('⚙️ Configurações\n\nEm breve: Configure sua chave de API Gemini aqui!');
+        }
+
         function fazerLogout() {
             if (confirm('Tem certeza que deseja sair?')) {
                 localStorage.removeItem('loginSite');
                 window.location.href = 'login.html';
             }
         }
-    </script>
 
-    <script src="js/script.js"></script>
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', exibirDisciplinas);
+    </script>
 </body>
 </html>

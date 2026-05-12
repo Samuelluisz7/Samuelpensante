@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa Avançada | SamuelPensante</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cor-primaria: #667eea;
+            --cor-secundaria: #764ba2;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        <script>
+            function verificarLogin() {
+                const loginData = localStorage.getItem('loginSite');
+                if (!loginData) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const { expiracao } = JSON.parse(loginData);
+                if (new Date().getTime() >= expiracao) {
+                    localStorage.removeItem('loginSite');
+                    window.location.href = 'login.html';
+                }
+            }
+            verificarLogin();
+        </script>
+
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 20px 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            color: var(--cor-primaria);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-voltar {
+            background: #95a5a6;
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+
+        .resultado {
+            background: #f8f9fa;
+            border-left: 4px solid var(--cor-primaria);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .resultado-titulo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .resultado-conteudo {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .resultado-link {
+            color: var(--cor-primaria);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .resultado-link:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--cor-primaria);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alerta {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alerta-info {
+            background: #d6eaf8;
+            border-color: #3498db;
+            color: #1a5490;
+        }
+
+        .alerta-sucesso {
+            background: #d5f4e6;
+            border-color: #27ae60;
+            color: #155724;
+        }
+
+        .alerta-erro {
+            background: #fadbd8;
+            border-color: #e74c3c;
+            color: #721c24;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .container {
+                margin: 20px auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔍 Pesquisa Avançada</h1>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="btn btn-voltar">← Voltar</a>
+
+        <div class="card">
+            <h2>🔎 Buscar Tópico</h2>
+            
+            <div class="form-group">
+                <label for="termo">Termo de Busca</label>
+                <input 
+                    type="text" 
+                    id="termo" 
+                    placeholder="Ex: Fotossíntese, Revolução Francesa, Equação de 2º grau..."
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="disciplina">Disciplina (Opcional)</label>
+                <select id="disciplina">
+                    <option value="">Todas as disciplinas</option>
+                    <option value="matematica">Matemática</option>
+                    <option value="fisica">Física</option>
+                    <option value="quimica">Química</option>
+                    <option value="biologia">Biologia</option>
+                    <option value="historia">História</option>
+                    <option value="geografia">Geografia</option>
+                    <option value="portugues">Português</option>
+                    <option value="redacao">Redação</option>
+                    <option value="filosofia">Filosofia</option>
+                    <option value="sociologia">Sociologia</option>
+                    <option value="ingles">Inglês</option>
+                    <option value="artes">Artes</option>
+                    <option value="educacao-fisica">Educação Física</option>
+                    <option value="espanhol">Espanhol</option>
+                    <option value="informatica">Informática</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="buscarAvancado()">🔍 Pesquisar</button>
+        </div>
+
+        <div id="resultados"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 SamuelPensante</p>
+    </footer>
+
+    <script src="js/ia-gemini.js"></script>
+    <script>
+        async function buscarAvancado() {
+            const termo = document.getElementById('termo').value.trim();
+            const disciplina = document.getElementById('disciplina').value;
+            const resultados = document.getElementById('resultados');
+
+            if (!termo) {
+                alert('Digite um termo para pesquisar');
+                return;
+            }
+
+            resultados.innerHTML = '<div class="card"><div class="loading"><div class="spinner"></div><p>Pesquisando...</p></div></div>';
+
+            try {
+                // Buscar na Wikipédia
+                const wikiResult = await buscarWikipedia(termo);
+                
+                let html = '<div class="card">';
+
+                if (wikiResult.sucesso) {
+                    html += `
+                        <div class="alerta alerta-sucesso">
+                            ✅ Resultado encontrado na Wikipédia!
+                        </div>
+                        <div class="resultado">
+                            <div class="resultado-titulo">📖 ${wikiResult.titulo}</div>
+                            <div class="resultado-conteudo">${wikiResult.conteudo}</div>
+                            <a href="${wikiResult.url}" target="_blank" class="resultado-link">Ver artigo completo →</a>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="alerta alerta-info">
+                            ℹ️ Nenhum resultado encontrado para "${termo}"
+                        </div>
+                    `;
+                }
+
+                html += '</div>';
+                resultados.innerHTML = html;
+            } catch (error) {
+                resultados.innerHTML = '<div class="card"><div class="alerta alerta-erro">❌ Erro ao pesquisar</div></div>';
+            }
+        }
+
+        // Permitir Enter
+        document.getElementById('termo').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') buscarAvancado();
+        });
+    </script>
+</body>
+</html>
