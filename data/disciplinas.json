@@ -1,0 +1,231 @@
+{
+  "disciplinas": [
+    {
+      "id": "matematica",
+      "nome": "Matemática",
+      "descricao": "Estude matemática do zero até conceitos avançados",
+      "icone": "📐",
+      "cor": "#3498db",
+      "topicos": 45,
+      "nivelMedio": 5
+    },
+    {
+      "id": "fisica",
+      "nome": "Física",
+      "descricao": "Explore os fenômenos da natureza e as leis do universo",
+      "icone": "⚡",
+      "cor": "#e74c3c",
+      "topicos": 35,
+      "nivelMedio": 6
+    },
+    {
+      "id": "quimica",
+      "nome": "Química",
+      "descricao": "Aprenda sobre elementos, reações e compostos",
+      "icone": "🧪",
+      "cor": "#9b59b6",
+      "topicos": 40,
+      "nivelMedio": 5
+    },
+    {
+      "id": "biologia",
+      "nome": "Biologia",
+      "descricao": "Estude a vida, células, organismos e ecossistemas",
+      "icone": "🧬",
+      "cor": "#27ae60",
+      "topicos": 38,
+      "nivelMedio": 5
+    },
+    {
+      "id": "historia",
+      "nome": "História",
+      "descricao": "Conheça os eventos que moldaram o mundo",
+      "icone": "📜",
+      "cor": "#d35400",
+      "topicos": 50,
+      "nivelMedio": 4
+    },
+    {
+      "id": "geografia",
+      "nome": "Geografia",
+      "descricao": "Explore o planeta, climas, populações e culturas",
+      "icone": "🌍",
+      "cor": "#16a085",
+      "topicos": 42,
+      "nivelMedio": 4
+    },
+    {
+      "id": "portugues",
+      "nome": "Português",
+      "descricao": "Domine a língua portuguesa, literatura e gramática",
+      "icone": "📚",
+      "cor": "#2980b9",
+      "topicos": 48,
+      "nivelMedio": 4
+    },
+    {
+      "id": "redacao",
+      "nome": "Redação",
+      "descricao": "Aprenda a escrever com clareza e persuasão",
+      "icone": "✍️",
+      "cor": "#8e44ad",
+      "topicos": 25,
+      "nivelMedio": 5
+    },
+    {
+      "id": "filosofia",
+      "nome": "Filosofia",
+      "descricao": "Explore grandes questões sobre existência e conhecimento",
+      "icone": "🤔",
+      "cor": "#34495e",
+      "topicos": 30,
+      "nivelMedio": 6
+    },
+    {
+      "id": "sociologia",
+      "nome": "Sociologia",
+      "descricao": "Entenda a sociedade, cultura e comportamento humano",
+      "icone": "👥",
+      "cor": "#c0392b",
+      "topicos": 28,
+      "nivelMedio": 4
+    },
+    {
+      "id": "ingles",
+      "nome": "Inglês",
+      "descricao": "Aprenda o idioma mais falado do mundo",
+      "icone": "🌐",
+      "cor": "#2c3e50",
+      "topicos": 55,
+      "nivelMedio": 5
+    },
+    {
+      "id": "artes",
+      "nome": "Artes",
+      "descricao": "Explore pintura, escultura, música e expressão criativa",
+      "icone": "🎨",
+      "cor": "#e67e22",
+      "topicos": 32,
+      "nivelMedio": 3
+    },
+    {
+      "id": "educacao-fisica",
+      "nome": "Educação Física",
+      "descricao": "Conheça esportes, saúde e bem-estar",
+      "icone": "⚽",
+      "cor": "#1abc9c",
+      "topicos": 20,
+      "nivelMedio": 2
+    },
+    {
+      "id": "espanhol",
+      "nome": "Espanhol",
+      "descricao": "Aprenda espanhol e explore a cultura hispânica",
+      "icone": "🇪🇸",
+      "cor": "#f39c12",
+      "topicos": 40,
+      "nivelMedio": 5
+    },
+    {
+      "id": "informatica",
+      "nome": "Informática",
+      "descricao": "Aprenda programação, redes e tecnologia",
+      "icone": "💻",
+      "cor": "#16a085",
+      "topicos": 50,
+      "nivelMedio": 6
+    }
+  ],
+  "topicos_exemplo": {
+    "matematica": [
+      {
+        "id": "numeros-reais",
+        "nome": "Números Reais",
+        "descricao": "Compreenda o conjunto dos números reais e suas propriedades",
+        "dificuldade": 2,
+        "dependencias": [],
+        "relacionados": ["conjuntos", "operacoes-basicas"]
+      },
+      {
+        "id": "funcoes",
+        "nome": "Funções",
+        "descricao": "Estude funções, gráficos e transformações",
+        "dificuldade": 5,
+        "dependencias": ["numeros-reais", "operacoes-basicas"],
+        "relacionados": ["calculo", "trigonometria"]
+      }
+    ],
+    "historia": [
+      {
+        "id": "idade-media",
+        "nome": "Idade Média",
+        "descricao": "Explore o período medieval europeu",
+        "dificuldade": 3,
+        "dependencias": [],
+        "relacionados": ["imperio-romano", "renascenca"]
+      },
+      {
+        "id": "revolucao-francesa",
+        "nome": "Revolução Francesa",
+        "descricao": "Entenda os eventos que transformaram a Europa",
+        "dificuldade": 4,
+        "dependencias": ["idade-media", "iluminismo"],
+        "relacionados": ["napoleao", "europa-moderna"]
+      }
+    ],
+    "biologia": [
+      {
+        "id": "celula",
+        "nome": "Célula",
+        "descricao": "Aprenda sobre a unidade básica da vida",
+        "dificuldade": 3,
+        "dependencias": [],
+        "relacionados": ["mitose", "dna", "metabolismo"]
+      },
+      {
+        "id": "evolucao",
+        "nome": "Evolução",
+        "descricao": "Estude a teoria da evolução e seleção natural",
+        "dificuldade": 5,
+        "dependencias": ["celula", "genetica"],
+        "relacionados": ["ecologia", "biodiversidade"]
+      }
+    ],
+    "portugues": [
+      {
+        "id": "literatura-brasileira",
+        "nome": "Literatura Brasileira",
+        "descricao": "Conheça os principais autores e obras da literatura brasileira",
+        "dificuldade": 4,
+        "dependencias": [],
+        "relacionados": ["romantismo", "modernismo", "realismo"]
+      },
+      {
+        "id": "gramatica",
+        "nome": "Gramática",
+        "descricao": "Domine as regras da língua portuguesa",
+        "dificuldade": 3,
+        "dependencias": [],
+        "relacionados": ["sintaxe", "morfologia", "pontuacao"]
+      }
+    ],
+    "quimica": [
+      {
+        "id": "tabela-periodica",
+        "nome": "Tabela Periódica",
+        "descricao": "Conheça os elementos químicos e suas propriedades",
+        "dificuldade": 3,
+        "dependencias": [],
+        "relacionados": ["atomos", "ligacoes-quimicas"]
+      },
+      {
+        "id": "reacoes-quimicas",
+        "nome": "Reações Químicas",
+        "descricao": "Estude como os elementos se combinam e reagem",
+        "dificuldade": 4,
+        "dependencias": ["tabela-periodica", "atomos"],
+        "relacionados": ["equilibrio-quimico", "cinetica"]
+      }
+    ]
+  }
+}

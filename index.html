@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Site de Estudos de Matemática</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        // Verificar se o usuário está logado
+        function verificarLogin() {
+            const loginData = localStorage.getItem('loginSite');
+            
+            if (!loginData) {
+                // Não está logado, redirecionar para login
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const { expiracao } = JSON.parse(loginData);
+            const agora = new Date().getTime();
+            
+            if (agora >= expiracao) {
+                // Sessão expirou
+                localStorage.removeItem('loginSite');
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Verificar ao carregar a página
+        verificarLogin();
+    </script>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <h1>📚 Matemática do Zero ao Avançado</h1>
+        <p>Seu espaço de estudos organizado e fácil de usar</p>
+    </header>
+
+    <!-- NAVEGAÇÃO -->
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Início</a></li>
+            <li><a href="pages/matematica-basica/index.html">Matemática Básica</a></li>
+            <li><a href="pages/fisica/index.html">Física</a></li>
+            <li><a href="pages/solucoes/index.html">Soluções Matemáticas</a></li>
+            <li><a href="pesquisar-materia.html">🔍 Pesquisar Matéria</a></li>
+            <li><a href="piramide-conhecimento.html">🔺 Pirâmide</a></li>
+        </ul>
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main>
+        <article>
+            <h2>Bem-vindo ao seu Site de Estudos! 🎓</h2>
+            <p>
+                Este é um espaço dedicado para organizar e aprender os conteúdos de forma clara, prática e eficiente. 
+                Aqui você encontrará explicações simples, exemplos práticos e exercícios de fixação para testar seu conhecimento.
+            </p>
+
+            <div class="dica">
+                <strong>💡 Dica:</strong> Navegue pelas seções usando o menu acima. Cada aula possui explicações, exemplos e exercícios para você praticar!
+            </div>
+
+            <h3>Como usar este site?</h3>
+            <p>
+                Este site foi organizado em três grandes áreas de estudo. Cada uma delas contém aulas estruturadas 
+                com o mesmo padrão, facilitando sua aprendizagem:
+            </p>
+
+            <div class="grid-aulas">
+                <div class="card-aula">
+                    <div class="card-aula-header">
+                        <div class="card-aula-numero">📐</div>
+                        <div class="card-aula-titulo">Matemática Básica</div>
+                    </div>
+                    <div class="card-aula-body">
+                        <p class="card-aula-descricao">
+                            Fundamentos essenciais da matemática, do zero até frações. 
+                            Perfeito para consolidar a base.
+                        </p>
+                        <a href="pages/matematica-basica/index.html" class="card-aula-link">Acessar →</a>
+                    </div>
+                </div>
+
+                <div class="card-aula">
+                    <div class="card-aula-header">
+                        <div class="card-aula-numero">⚡</div>
+                        <div class="card-aula-titulo">Física</div>
+                    </div>
+                    <div class="card-aula-body">
+                        <p class="card-aula-descricao">
+                            Conceitos de física com explicações detalhadas, exemplos práticos 
+                            e muitas figuras para visualizar.
+                        </p>
+                        <a href="pages/fisica/index.html" class="card-aula-link">Acessar →</a>
+                    </div>
+                </div>
+
+                <div class="card-aula">
+                    <div class="card-aula-header">
+                        <div class="card-aula-numero">✨</div>
+                        <div class="card-aula-titulo">Soluções Matemáticas</div>
+                    </div>
+                    <div class="card-aula-body">
+                        <p class="card-aula-descricao">
+                            Aulas específicas (1 a 11) com soluções matemáticas avançadas 
+                            e integradas com a matemática básica.
+                        </p>
+                        <a href="pages/solucoes/index.html" class="card-aula-link">Acessar →</a>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Estrutura de cada aula</h3>
+            <p>
+                Todas as aulas seguem um padrão consistente para facilitar seu aprendizado:
+            </p>
+
+            <div class="secao-explicacao">
+                <h4>📖 Explicações Simples</h4>
+                <p>
+                    Conceitos explicados com linguagem clara e fácil de entender, 
+                    sem complicações desnecessárias.
+                </p>
+            </div>
+
+            <div class="secao-explicacao">
+                <h4>💡 Exemplos Práticos</h4>
+                <p>
+                    Exemplos do mundo real que ajudam a visualizar como aplicar o conceito 
+                    e resolver problemas semelhantes.
+                </p>
+            </div>
+
+            <div class="secao-explicacao">
+                <h4>🖼️ Imagens e Figuras</h4>
+                <p>
+                    Espaços dedicados para inserir figuras, gráficos e diagramas que 
+                    facilitam a compreensão visual.
+                </p>
+            </div>
+
+            <div class="secao-explicacao">
+                <h4>✅ Exercícios de Fixação</h4>
+                <p>
+                    Perguntas curtas no final de cada página para testar se você realmente 
+                    compreendeu o conteúdo.
+                </p>
+            </div>
+
+            <h3>Comece agora! 🚀</h3>
+            <p>
+                Escolha uma das áreas acima e comece a estudar. Recomendamos começar pela 
+                <strong>Matemática Básica</strong> se você está começando do zero!
+            </p>
+
+            <div class="texto-centro mt-40">
+                <a href="pages/matematica-basica/index.html" class="btn btn-primario">
+                    Ir para Matemática Básica
+                </a>
+            </div>
+        </article>
+    </main>    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Seu Site de Estudos</p>
+        <p>
+            <a href="#" onclick="fazerLogout()">Sair da Conta</a>
+        </p>
+    </footer>
+
+    <script>
+        function fazerLogout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                localStorage.removeItem('loginSite');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

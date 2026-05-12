@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SamuelPensante - Plataforma de Estudos Completa</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --cor-primaria: #667eea;
+            --cor-secundaria: #764ba2;
+            --cor-destaque: #f093fb;
+            --cor-sucesso: #27ae60;
+            --cor-aviso: #f39c12;
+            --cor-erro: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Verificação de login */
+        <script>
+            function verificarLogin() {
+                const loginData = localStorage.getItem('loginSite');
+                if (!loginData) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                const { expiracao } = JSON.parse(loginData);
+                if (new Date().getTime() >= expiracao) {
+                    localStorage.removeItem('loginSite');
+                    window.location.href = 'login.html';
+                }
+            }
+            verificarLogin();
+        </script>
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            color: var(--cor-primaria);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .secao-titulo {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .grid-disciplinas {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card-disciplina {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-top: 4px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-disciplina:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-disciplina-icone {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .card-disciplina-nome {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .card-disciplina-descricao {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .card-disciplina-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #95a5a6;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        .barra-pesquisa-principal {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .barra-pesquisa-principal h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .input-pesquisa-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .input-pesquisa-container input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-pesquisa-container input:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-pesquisa-container button {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .input-pesquisa-container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .filtros {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filtro-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .filtro-btn:hover,
+        .filtro-btn.ativo {
+            background: var(--cor-primaria);
+            color: white;
+            border-color: var(--cor-primaria);
+        }
+
+        .resultados-pesquisa {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .resultados-pesquisa.show {
+            display: block;
+        }
+
+        .resultado-item {
+            padding: 15px;
+            border-bottom: 1px solid #ecf0f1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .resultado-item:hover {
+            background: #f8f9fa;
+            padding-left: 20px;
+        }
+
+        .resultado-titulo {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .resultado-descricao {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .resultado-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .badge-disciplina {
+            background: var(--cor-primaria);
+            color: white;
+        }
+
+        .badge-dificuldade {
+            background: var(--cor-aviso);
+            color: white;
+        }
+
+        .secao-rapida {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .secao-rapida h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .botoes-rapidos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .btn-rapido {
+            padding: 15px;
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-rapido:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .modal-info {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-info.show {
+            display: flex;
+        }
+
+        .modal-conteudo {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-conteudo h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .modal-conteudo p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .modal-fechar {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #95a5a6;
+        }
+
+        .modal-fechar:hover {
+            color: #2c3e50;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .secao-titulo {
+                font-size: 1.5rem;
+            }
+
+            .grid-disciplinas {
+                grid-template-columns: 1fr;
+            }
+
+            .input-pesquisa-container {
+                flex-direction: column;
+            }
+
+            .barra-pesquisa-principal {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📚 SamuelPensante</h1>
+        <p>Sua plataforma completa de estudos com IA integrada</p>
+    </header>
+
+    <div class="container">
+        <!-- BARRA DE PESQUISA PRINCIPAL -->
+        <div class="barra-pesquisa-principal">
+            <h2>🔍 Pesquisar Tópico</h2>
+            <div class="input-pesquisa-container">
+                <input 
+                    type="text" 
+                    id="inputPesquisa" 
+                    placeholder="Digite um tópico (ex: Revolução Francesa, Fotossíntese, Equação de 2º grau...)"
+                >
+                <button onclick="pesquisarGlobal()">Pesquisar</button>
+            </div>
+            
+            <div class="filtros">
+                <button class="filtro-btn ativo" onclick="filtrarDisciplina('todas')">Todas</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('matematica')">Matemática</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('historia')">História</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('portugues')">Português</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('quimica')">Química</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('biologia')">Biologia</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('fisica')">Física</button>
+                <button class="filtro-btn" onclick="filtrarDisciplina('ingles')">Inglês</button>
+            </div>
+
+            <div class="resultados-pesquisa" id="resultadosPesquisa"></div>
+        </div>
+
+        <!-- DISCIPLINAS -->
+        <h2 class="secao-titulo">📚 Todas as Disciplinas</h2>
+        <div class="grid-disciplinas" id="gridDisciplinas"></div>
+
+        <!-- SEÇÃO RÁPIDA -->
+        <div class="secao-rapida">
+            <h3>⚡ Acesso Rápido</h3>
+            <div class="botoes-rapidos">
+                <a href="pesquisar-materia.html" class="btn-rapido">🔍 Pesquisa Avançada</a>
+                <a href="piramide-conhecimento.html" class="btn-rapido">🔺 Pirâmide de Conhecimento</a>
+                <a href="#" onclick="fazerLogout()" class="btn-rapido" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">🚪 Sair</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 SamuelPensante - Plataforma de Estudos</p>
+        <p>
+            <a href="#">Sobre</a> | 
+            <a href="#">Contato</a> | 
+            <a href="#">Feedback</a>
+        </p>
+    </footer>
+
+    <script>
+        let disciplinas = [];
+        let filtroAtual = 'todas';
+
+        // Carregar disciplinas
+        async function carregarDisciplinas() {
+            try {
+                const response = await fetch('data/disciplinas.json');
+                const data = await response.json();
+                disciplinas = data.disciplinas;
+                exibirDisciplinas();
+            } catch (error) {
+                console.error('Erro ao carregar disciplinas:', error);
+            }
+        }
+
+        // Exibir disciplinas
+        function exibirDisciplinas() {
+            const grid = document.getElementById('gridDisciplinas');
+            let html = '';
+
+            disciplinas.forEach(disc => {
+                html += `
+                    <div class="card-disciplina" style="border-top-color: ${disc.cor};" onclick="abrirDisciplina('${disc.id}')">
+                        <div class="card-disciplina-icone">${disc.icone}</div>
+                        <div class="card-disciplina-nome">${disc.nome}</div>
+                        <div class="card-disciplina-descricao">${disc.descricao}</div>
+                        <div class="card-disciplina-info">
+                            <span>📖 ${disc.topicos} tópicos</span>
+                            <span>📊 Nível ${disc.nivelMedio}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        // Pesquisa global
+        function pesquisarGlobal() {
+            const termo = document.getElementById('inputPesquisa').value.toLowerCase().trim();
+            
+            if (!termo) {
+                alert('Digite um termo para pesquisar');
+                return;
+            }
+
+            // Aqui você integraria com Gemini e Wikipédia
+            alert(`Pesquisando por: "${termo}"\n\nEm breve: Integração com IA Gemini e Wikipédia!`);
+        }
+
+        // Filtrar disciplina
+        function filtrarDisciplina(disc) {
+            filtroAtual = disc;
+            
+            document.querySelectorAll('.filtro-btn').forEach(btn => {
+                btn.classList.remove('ativo');
+            });
+            event.target.classList.add('ativo');
+        }
+
+        // Abrir disciplina
+        function abrirDisciplina(id) {
+            const disc = disciplinas.find(d => d.id === id);
+            if (disc) {
+                alert(`Abrindo: ${disc.nome}\n\nEm breve: Página completa com todos os tópicos!`);
+            }
+        }
+
+        // Logout
+        function fazerLogout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                localStorage.removeItem('loginSite');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', carregarDisciplinas);
+    </script>
+</body>
+</html>

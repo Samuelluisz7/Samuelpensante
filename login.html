@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Site de Estudos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container-login {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 50px 40px;
+            max-width: 400px;
+            width: 100%;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .logo p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #bdc3c7;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .opcoes {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .info-box {
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+
+        .erro {
+            background: #fadbd8;
+            border-left: 4px solid #e74c3c;
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            color: #721c24;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .erro.show {
+            display: block;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .sucesso {
+            background: #d5f4e6;
+            border-left: 4px solid #27ae60;
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            color: #155724;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .sucesso.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .footer-login {
+            text-align: center;
+            color: #95a5a6;
+            font-size: 0.85rem;
+            margin-top: 20px;
+        }
+
+        .footer-login a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-login a:hover {
+            text-decoration: underline;
+        }
+
+        .senha-info {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #856404;
+        }
+
+        @media (max-width: 480px) {
+            .container-login {
+                padding: 30px 20px;
+            }
+
+            .logo h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-login">
+        <div class="logo">
+            <h1>📚</h1>
+            <h2>Site de Estudos</h2>
+            <p>Acesso Protegido</p>
+        </div>
+
+        <div class="senha-info">
+            💡 <strong>Dica:</strong> A senha padrão é <strong>123456</strong> (você pode mudar depois)
+        </div>
+
+        <div class="erro" id="erro"></div>
+        <div class="sucesso" id="sucesso"></div>
+
+        <form id="formLogin" onsubmit="fazerLogin(event)">
+            <div class="form-group">
+                <label for="senha">🔐 Código de Acesso</label>
+                <input 
+                    type="password" 
+                    id="senha" 
+                    placeholder="Digite a senha" 
+                    required
+                    autofocus
+                >
+            </div>
+
+            <div class="opcoes">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="lembrar" name="lembrar">
+                    <label for="lembrar" style="margin: 0; cursor: pointer;">Lembrar por 7 dias</label>
+                </div>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+            </div>
+
+            <button type="submit" class="btn-login" id="btnLogin">
+                🔓 Acessar Site
+            </button>
+        </form>
+
+        <div class="info-box">
+            ℹ️ Este site é protegido por senha. Apenas pessoas autorizadas podem acessar o conteúdo.
+        </div>
+
+        <div class="footer-login">
+            <p>Esqueceu a senha? Contate o administrador</p>
+        </div>
+    </div>
+
+    <script>
+        // Configuração de senhas (você pode mudar isso)
+        const SENHAS_VALIDAS = [
+            '123456',      // Senha padrão
+            'estudos2026'  // Senha alternativa
+        ];
+
+        // Verificar se já está logado
+        window.addEventListener('load', function() {
+            verificarLogin();
+        });
+
+        function verificarLogin() {
+            const loginData = localStorage.getItem('loginSite');
+            
+            if (loginData) {
+                const { timestamp, expiracao } = JSON.parse(loginData);
+                const agora = new Date().getTime();
+                
+                // Se ainda está dentro do período de validade
+                if (agora < expiracao) {
+                    irParaPrincipal();
+                    return;
+                }
+            }
+            
+            // Se expirou, limpar
+            localStorage.removeItem('loginSite');
+        }
+
+        function fazerLogin(event) {
+            event.preventDefault();
+
+            const senha = document.getElementById('senha').value;
+            const lembrar = document.getElementById('lembrar').checked;
+            const erro = document.getElementById('erro');
+            const sucesso = document.getElementById('sucesso');
+            const btnLogin = document.getElementById('btnLogin');
+            const loading = document.getElementById('loading');
+
+            // Limpar mensagens
+            erro.classList.remove('show');
+            sucesso.classList.remove('show');
+
+            // Mostrar loading
+            loading.style.display = 'block';
+            btnLogin.disabled = true;
+
+            // Simular processamento
+            setTimeout(() => {
+                // Verificar senha
+                if (SENHAS_VALIDAS.includes(senha)) {
+                    // Senha correta!
+                    sucesso.textContent = '✅ Senha correta! Acessando...';
+                    sucesso.classList.add('show');
+
+                    // Calcular tempo de expiração
+                    const agora = new Date().getTime();
+                    const expiracao = lembrar 
+                        ? agora + (7 * 24 * 60 * 60 * 1000) // 7 dias
+                        : agora + (24 * 60 * 60 * 1000);     // 1 dia
+
+                    // Salvar no localStorage
+                    localStorage.setItem('loginSite', JSON.stringify({
+                        timestamp: agora,
+                        expiracao: expiracao,
+                        lembrar: lembrar
+                    }));
+
+                    // Redirecionar após 1 segundo
+                    setTimeout(() => {
+                        irParaPrincipal();
+                    }, 1000);
+                } else {
+                    // Senha incorreta
+                    erro.textContent = '❌ Senha incorreta! Tente novamente.';
+                    erro.classList.add('show');
+
+                    // Limpar campo
+                    document.getElementById('senha').value = '';
+                    document.getElementById('senha').focus();
+
+                    // Esconder loading
+                    loading.style.display = 'none';
+                    btnLogin.disabled = false;
+                }
+            }, 500);
+        }
+
+        function irParaPrincipal() {
+            window.location.href = 'index.html';
+        }
+
+        // Permitir Enter para enviar
+        document.getElementById('senha').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('formLogin').submit();
+            }
+        });
+
+        // Mostrar/esconder senha
+        function toggleSenha() {
+            const input = document.getElementById('senha');
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+    </script>
+</body>
+</html>

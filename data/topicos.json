@@ -1,0 +1,450 @@
+{
+  "topicos": [
+    {
+      "id": "numeros-naturais",
+      "nome": "Números Naturais",
+      "categoria": "matematica-basica",
+      "dificuldade": 1,
+      "descricao": "Introdução aos números naturais, contagem e operações básicas",
+      "dependencias": [],
+      "relacionados": ["adicao-subtracao", "multiplicacao"],
+      "conteudo": {
+        "explicacao": "Números naturais são aqueles que usamos para contar: 0, 1, 2, 3, 4, 5...",
+        "exemplos": [
+          "Contando pessoas em uma sala",
+          "Contando frutas em uma cesta",
+          "Idade de uma pessoa"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "adicao-subtracao",
+      "nome": "Adição e Subtração",
+      "categoria": "matematica-basica",
+      "dificuldade": 2,
+      "descricao": "Aprenda a somar e subtrair números com confiança",
+      "dependencias": ["numeros-naturais"],
+      "relacionados": ["multiplicacao", "divisao", "numeros-decimais"],
+      "conteudo": {
+        "explicacao": "Adição é juntar quantidades. Subtração é tirar quantidades.",
+        "exemplos": [
+          "5 + 3 = 8",
+          "10 - 4 = 6",
+          "Comprar e receber troco"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "multiplicacao",
+      "nome": "Multiplicação",
+      "categoria": "matematica-basica",
+      "dificuldade": 3,
+      "descricao": "Entenda a multiplicação como adição repetida",
+      "dependencias": ["numeros-naturais", "adicao-subtracao"],
+      "relacionados": ["divisao", "tabuadas", "potenciacao"],
+      "conteudo": {
+        "explicacao": "Multiplicação é uma forma rápida de fazer adição repetida",
+        "exemplos": [
+          "3 × 4 = 12 (3 grupos de 4)",
+          "5 × 2 = 10",
+          "Preço de múltiplos itens"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "divisao",
+      "nome": "Divisão",
+      "categoria": "matematica-basica",
+      "dificuldade": 3,
+      "descricao": "Aprenda divisão como o inverso da multiplicação",
+      "dependencias": ["numeros-naturais", "multiplicacao"],
+      "relacionados": ["multiplicacao", "fracao", "proporcao"],
+      "conteudo": {
+        "explicacao": "Divisão é repartir em partes iguais",
+        "exemplos": [
+          "12 ÷ 3 = 4",
+          "20 ÷ 5 = 4",
+          "Dividir pizza entre pessoas"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "numeros-decimais",
+      "nome": "Números Decimais",
+      "categoria": "matematica-basica",
+      "dificuldade": 4,
+      "descricao": "Introdução aos números decimais e suas operações",
+      "dependencias": ["numeros-naturais", "adicao-subtracao", "divisao"],
+      "relacionados": ["fracao", "porcentagem"],
+      "conteudo": {
+        "explicacao": "Números decimais representam partes de um inteiro",
+        "exemplos": [
+          "1,5 (um e meio)",
+          "0,25 (um quarto)",
+          "Preços em dinheiro"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "fracao",
+      "nome": "Frações",
+      "categoria": "matematica-basica",
+      "dificuldade": 5,
+      "descricao": "Conceitos de frações e operações com frações",
+      "dependencias": ["numeros-naturais", "divisao", "numeros-decimais"],
+      "relacionados": ["proporcao", "porcentagem", "razao"],
+      "conteudo": {
+        "explicacao": "Frações representam partes de um todo",
+        "exemplos": [
+          "1/2 (metade)",
+          "3/4 (três quartos)",
+          "Dividir pizza em fatias"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "potenciacao",
+      "nome": "Potenciação",
+      "categoria": "solucoes",
+      "dificuldade": 6,
+      "descricao": "Aprenda a resolver expressões com potências",
+      "dependencias": ["multiplicacao", "numeros-naturais"],
+      "relacionados": ["radiciacao", "expressoes-numericas"],
+      "conteudo": {
+        "explicacao": "Potência é multiplicação repetida",
+        "exemplos": [
+          "2³ = 2 × 2 × 2 = 8",
+          "5² = 5 × 5 = 25",
+          "10⁴ = 10000"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "radiciacao",
+      "nome": "Radiciação",
+      "categoria": "solucoes",
+      "dificuldade": 6,
+      "descricao": "Aprenda sobre raízes quadradas e cúbicas",
+      "dependencias": ["potenciacao", "multiplicacao"],
+      "relacionados": ["potenciacao", "expressoes-numericas"],
+      "conteudo": {
+        "explicacao": "Raiz é o inverso da potência",
+        "exemplos": [
+          "√9 = 3 (porque 3² = 9)",
+          "√16 = 4 (porque 4² = 16)",
+          "∛8 = 2 (porque 2³ = 8)"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "expressoes-numericas",
+      "nome": "Expressões Numéricas",
+      "categoria": "solucoes",
+      "dificuldade": 7,
+      "descricao": "Resolva expressões com múltiplas operações",
+      "dependencias": ["adicao-subtracao", "multiplicacao", "divisao", "potenciacao"],
+      "relacionados": ["equacao-1-grau", "equacao-2-grau"],
+      "conteudo": {
+        "explicacao": "Ordem das operações: Parênteses, Potência, Multiplicação/Divisão, Adição/Subtração",
+        "exemplos": [
+          "2 + 3 × 4 = 14",
+          "(2 + 3) × 4 = 20",
+          "10 - 2² + 3 = 9"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "proporcao",
+      "nome": "Razão e Proporção",
+      "categoria": "solucoes",
+      "dificuldade": 7,
+      "descricao": "Entenda razões e proporções",
+      "dependencias": ["fracao", "divisao", "numeros-decimais"],
+      "relacionados": ["porcentagem", "regra-tres"],
+      "conteudo": {
+        "explicacao": "Proporção é uma igualdade entre duas razões",
+        "exemplos": [
+          "2/4 = 1/2",
+          "Se 3 custa 6, então 5 custa 10",
+          "Escalas em mapas"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "porcentagem",
+      "nome": "Porcentagem",
+      "categoria": "solucoes",
+      "dificuldade": 7,
+      "descricao": "Calcule porcentagens e suas aplicações",
+      "dependencias": ["fracao", "numeros-decimais", "proporcao"],
+      "relacionados": ["proporcao", "regra-tres"],
+      "conteudo": {
+        "explicacao": "Porcentagem é uma razão com denominador 100",
+        "exemplos": [
+          "50% = 50/100 = 0,5",
+          "25% de 100 = 25",
+          "Desconto em compras"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "equacao-1-grau",
+      "nome": "Equações de 1º Grau",
+      "categoria": "solucoes",
+      "dificuldade": 8,
+      "descricao": "Resolva equações simples com uma incógnita",
+      "dependencias": ["expressoes-numericas", "adicao-subtracao", "multiplicacao", "divisao"],
+      "relacionados": ["equacao-2-grau", "sistemas-equacoes"],
+      "conteudo": {
+        "explicacao": "Equação é uma igualdade com uma incógnita (x)",
+        "exemplos": [
+          "x + 5 = 12, então x = 7",
+          "2x = 10, então x = 5",
+          "3x - 4 = 8, então x = 4"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "sistemas-equacoes",
+      "nome": "Sistemas de Equações",
+      "categoria": "solucoes",
+      "dificuldade": 9,
+      "descricao": "Resolva sistemas com duas ou mais equações",
+      "dependencias": ["equacao-1-grau", "adicao-subtracao", "multiplicacao"],
+      "relacionados": ["equacao-2-grau", "funcoes"],
+      "conteudo": {
+        "explicacao": "Sistema é um conjunto de equações que devem ser resolvidas juntas",
+        "exemplos": [
+          "x + y = 5 e x - y = 1",
+          "2x + y = 7 e x + y = 4",
+          "Problemas com múltiplas incógnitas"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "equacao-2-grau",
+      "nome": "Equações de 2º Grau",
+      "categoria": "solucoes",
+      "dificuldade": 9,
+      "descricao": "Resolva equações quadráticas",
+      "dependencias": ["equacao-1-grau", "expressoes-numericas", "radiciacao", "potenciacao"],
+      "relacionados": ["funcoes", "sistemas-equacoes"],
+      "conteudo": {
+        "explicacao": "Equação de 2º grau tem a forma ax² + bx + c = 0",
+        "exemplos": [
+          "x² - 5x + 6 = 0",
+          "2x² + 3x - 2 = 0",
+          "Fórmula de Bhaskara"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "funcoes",
+      "nome": "Funções",
+      "categoria": "solucoes",
+      "dificuldade": 10,
+      "descricao": "Entenda funções e gráficos",
+      "dependencias": ["equacao-1-grau", "equacao-2-grau", "sistemas-equacoes"],
+      "relacionados": ["geometria", "trigonometria"],
+      "conteudo": {
+        "explicacao": "Função é uma relação entre dois conjuntos",
+        "exemplos": [
+          "f(x) = 2x + 1",
+          "f(x) = x²",
+          "Gráficos de funções"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "geometria",
+      "nome": "Geometria Básica",
+      "categoria": "solucoes",
+      "dificuldade": 8,
+      "descricao": "Aprenda sobre formas, áreas e perímetros",
+      "dependencias": ["multiplicacao", "numeros-decimais", "fracao"],
+      "relacionados": ["trigonometria", "funcoes"],
+      "conteudo": {
+        "explicacao": "Geometria estuda formas e espaço",
+        "exemplos": [
+          "Área do quadrado = lado²",
+          "Perímetro = soma dos lados",
+          "Área do círculo = πr²"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "trigonometria",
+      "nome": "Trigonometria Básica",
+      "categoria": "solucoes",
+      "dificuldade": 10,
+      "descricao": "Introdução à trigonometria",
+      "dependencias": ["geometria", "funcoes", "radiciacao"],
+      "relacionados": ["funcoes", "geometria"],
+      "conteudo": {
+        "explicacao": "Trigonometria estuda relações entre ângulos e lados",
+        "exemplos": [
+          "sen(θ) = cateto oposto / hipotenusa",
+          "cos(θ) = cateto adjacente / hipotenusa",
+          "tan(θ) = cateto oposto / cateto adjacente"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "movimento-velocidade",
+      "nome": "Movimento e Velocidade",
+      "categoria": "fisica",
+      "dificuldade": 6,
+      "descricao": "Entenda como os objetos se movem",
+      "dependencias": ["numeros-decimais", "divisao"],
+      "relacionados": ["forca-aceleracao", "energia"],
+      "conteudo": {
+        "explicacao": "Velocidade é a distância percorrida em um tempo",
+        "exemplos": [
+          "Velocidade = Distância / Tempo",
+          "Um carro a 100 km/h",
+          "Movimento de um objeto"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "forca-aceleracao",
+      "nome": "Força e Aceleração",
+      "categoria": "fisica",
+      "dificuldade": 7,
+      "descricao": "Como as forças afetam o movimento",
+      "dependencias": ["movimento-velocidade", "multiplicacao"],
+      "relacionados": ["movimento-velocidade", "energia"],
+      "conteudo": {
+        "explicacao": "Força = Massa × Aceleração (F = ma)",
+        "exemplos": [
+          "Lei de Newton",
+          "Aceleração de um carro",
+          "Impacto de uma colisão"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "energia",
+      "nome": "Energia",
+      "categoria": "fisica",
+      "dificuldade": 8,
+      "descricao": "Tipos de energia e transformações",
+      "dependencias": ["forca-aceleracao", "multiplicacao"],
+      "relacionados": ["forca-aceleracao", "gravitacao"],
+      "conteudo": {
+        "explicacao": "Energia é a capacidade de fazer trabalho",
+        "exemplos": [
+          "Energia cinética = ½ × m × v²",
+          "Energia potencial",
+          "Transformação de energia"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "gravitacao",
+      "nome": "Gravitação",
+      "categoria": "fisica",
+      "dificuldade": 9,
+      "descricao": "Entenda a gravidade",
+      "dependencias": ["forca-aceleracao", "energia"],
+      "relacionados": ["energia", "movimento-velocidade"],
+      "conteudo": {
+        "explicacao": "Gravidade é a força que atrai objetos",
+        "exemplos": [
+          "Lei da Gravitação Universal",
+          "Queda de objetos",
+          "Órbitas de planetas"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "ondas-som",
+      "nome": "Ondas e Som",
+      "categoria": "fisica",
+      "dificuldade": 8,
+      "descricao": "Como as ondas funcionam",
+      "dependencias": ["movimento-velocidade", "energia"],
+      "relacionados": ["luz-optica"],
+      "conteudo": {
+        "explicacao": "Ondas são perturbações que se propagam",
+        "exemplos": [
+          "Ondas sonoras",
+          "Frequência e comprimento de onda",
+          "Velocidade do som"
+        ],
+        "exercicios": []
+      }
+    },
+    {
+      "id": "luz-optica",
+      "nome": "Luz e Óptica",
+      "categoria": "fisica",
+      "dificuldade": 9,
+      "descricao": "Como a luz funciona",
+      "dependencias": ["ondas-som", "energia"],
+      "relacionados": ["ondas-som"],
+      "conteudo": {
+        "explicacao": "Luz é uma forma de radiação eletromagnética",
+        "exemplos": [
+          "Reflexão e refração",
+          "Lentes e espelhos",
+          "Cores da luz"
+        ],
+        "exercicios": []
+      }
+    }
+  ],
+  "niveis": {
+    "1": { "nome": "Iniciante", "descricao": "Conceitos fundamentais" },
+    "2": { "nome": "Básico", "descricao": "Operações simples" },
+    "3": { "nome": "Intermediário Baixo", "descricao": "Combinações básicas" },
+    "4": { "nome": "Intermediário", "descricao": "Conceitos mais complexos" },
+    "5": { "nome": "Intermediário Alto", "descricao": "Aplicações práticas" },
+    "6": { "nome": "Avançado Baixo", "descricao": "Conceitos avançados" },
+    "7": { "nome": "Avançado", "descricao": "Aplicações avançadas" },
+    "8": { "nome": "Muito Avançado", "descricao": "Conceitos complexos" },
+    "9": { "nome": "Especialista", "descricao": "Tópicos especializados" },
+    "10": { "nome": "Mestrado", "descricao": "Nível de mestrado" }
+  },
+  "categorias": {
+    "matematica-basica": {
+      "nome": "Matemática Básica",
+      "descricao": "Fundamentos essenciais da matemática",
+      "icon": "📐",
+      "cor": "#3498db"
+    },
+    "solucoes": {
+      "nome": "Soluções Matemáticas",
+      "descricao": "Tópicos avançados de matemática",
+      "icon": "✨",
+      "cor": "#9b59b6"
+    },
+    "fisica": {
+      "nome": "Física",
+      "descricao": "Conceitos de física e aplicações",
+      "icon": "⚡",
+      "cor": "#e74c3c"
+    }
+  }
+}

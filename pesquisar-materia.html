@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisar e Adicionar Matéria | Site de Estudos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .container-pesquisa {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card-pesquisa {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .input-pesquisa {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-pesquisa input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-pesquisa input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .btn-pesquisar {
+            padding: 15px 30px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-pesquisar:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .resultados-pesquisa {
+            margin-top: 30px;
+        }
+
+        .resultado-item {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .resultado-item:hover {
+            background: #ecf0f1;
+            transform: translateX(5px);
+            border-left-color: #2980b9;
+        }
+
+        .resultado-titulo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .resultado-descricao {
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .resultado-info {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+        }
+
+        .resultado-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-dificuldade {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .dificuldade-1 { background-color: #d5f4e6; color: #27ae60; }
+        .dificuldade-2 { background-color: #d5f4e6; color: #27ae60; }
+        .dificuldade-3 { background-color: #fef5e7; color: #f39c12; }
+        .dificuldade-4 { background-color: #fef5e7; color: #f39c12; }
+        .dificuldade-5 { background-color: #fef5e7; color: #f39c12; }
+        .dificuldade-6 { background-color: #fadbd8; color: #e74c3c; }
+        .dificuldade-7 { background-color: #fadbd8; color: #e74c3c; }
+        .dificuldade-8 { background-color: #fadbd8; color: #e74c3c; }
+        .dificuldade-9 { background-color: #d7bde2; color: #8e44ad; }
+        .dificuldade-10 { background-color: #d7bde2; color: #8e44ad; }
+
+        .badge-categoria {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-adicionar {
+            background-color: #27ae60;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-adicionar:hover {
+            background-color: #229954;
+        }
+
+        .pirâmide-conhecimento {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .piramide-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .nivel-piramide {
+            padding: 15px;
+            border-radius: 5px;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .nivel-piramide:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .nivel-1 { background: linear-gradient(135deg, #27ae60, #229954); width: 100%; }
+        .nivel-2 { background: linear-gradient(135deg, #27ae60, #229954); width: 95%; margin: 0 auto; }
+        .nivel-3 { background: linear-gradient(135deg, #f39c12, #e67e22); width: 90%; margin: 0 auto; }
+        .nivel-4 { background: linear-gradient(135deg, #f39c12, #e67e22); width: 85%; margin: 0 auto; }
+        .nivel-5 { background: linear-gradient(135deg, #f39c12, #e67e22); width: 80%; margin: 0 auto; }
+        .nivel-6 { background: linear-gradient(135deg, #e74c3c, #c0392b); width: 75%; margin: 0 auto; }
+        .nivel-7 { background: linear-gradient(135deg, #e74c3c, #c0392b); width: 70%; margin: 0 auto; }
+        .nivel-8 { background: linear-gradient(135deg, #e74c3c, #c0392b); width: 65%; margin: 0 auto; }
+        .nivel-9 { background: linear-gradient(135deg, #8e44ad, #6c3483); width: 60%; margin: 0 auto; }
+        .nivel-10 { background: linear-gradient(135deg, #8e44ad, #6c3483); width: 55%; margin: 0 auto; }
+
+        .mapa-dependencias {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .grafo-dependencias {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .topico-selecionado {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .info-topico {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-topico-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .info-topico-item h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .info-topico-item p {
+            color: #7f8c8d;
+            margin: 5px 0;
+        }
+
+        .dependencias-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .dependencias-list li {
+            padding: 8px;
+            background: white;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            border-left: 3px solid #3498db;
+            padding-left: 12px;
+        }
+
+        .btn-criar-aula {
+            background-color: #27ae60;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .btn-criar-aula:hover {
+            background-color: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .filtros {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filtro-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filtro-btn:hover,
+        .filtro-btn.ativo {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .info-topico {
+                grid-template-columns: 1fr;
+            }
+
+            .input-pesquisa {
+                flex-direction: column;
+            }
+
+            .resultado-info {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <h1>📚 Matemática do Zero ao Avançado</h1>
+        <p>Pesquisar e Adicionar Matérias</p>
+    </header>
+
+    <!-- NAVEGAÇÃO -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="pages/matematica-basica/index.html">Matemática Básica</a></li>
+            <li><a href="pages/fisica/index.html">Física</a></li>
+            <li><a href="pages/solucoes/index.html">Soluções Matemáticas</a></li>
+            <li><a href="pesquisar-materia.html" class="active">Pesquisar Matéria</a></li>
+        </ul>
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main>
+        <div class="container-pesquisa">
+            <!-- CARD DE PESQUISA -->
+            <div class="card-pesquisa">
+                <h2>🔍 Pesquisar Matéria</h2>
+                <p>Digite o nome de um tópico que você quer estudar e o sistema encontrará automaticamente a melhor forma de organizá-lo!</p>
+
+                <div class="input-pesquisa">
+                    <input 
+                        type="text" 
+                        id="inputPesquisa" 
+                        placeholder="Ex: Equação de 2º grau, Subtração, Movimento, Frações..."
+                        autocomplete="off"
+                    >
+                    <button class="btn-pesquisar" onclick="pesquisarMateria()">Pesquisar</button>
+                </div>
+
+                <!-- FILTROS -->
+                <div class="filtros">
+                    <button class="filtro-btn ativo" onclick="filtrarCategoria('todas')">Todas</button>
+                    <button class="filtro-btn" onclick="filtrarCategoria('matematica-basica')">Matemática Básica</button>
+                    <button class="filtro-btn" onclick="filtrarCategoria('solucoes')">Soluções</button>
+                    <button class="filtro-btn" onclick="filtrarCategoria('fisica')">Física</button>
+                </div>
+
+                <!-- RESULTADOS -->
+                <div id="resultados" class="resultados-pesquisa"></div>
+            </div>
+
+            <!-- PIRÂMIDE DE CONHECIMENTO -->
+            <div class="pirâmide-conhecimento">
+                <h2>🔺 Pirâmide de Conhecimento</h2>
+                <p>Visualize a hierarquia de dificuldade dos tópicos. Do verde (básico) ao roxo (avançado):</p>
+                
+                <div class="piramide-visual">
+                    <div class="nivel-piramide nivel-1">Nível 1-2: Iniciante (Conceitos Fundamentais)</div>
+                    <div class="nivel-piramide nivel-3">Nível 3-5: Intermediário (Operações e Aplicações)</div>
+                    <div class="nivel-piramide nivel-6">Nível 6-8: Avançado (Conceitos Complexos)</div>
+                    <div class="nivel-piramide nivel-9">Nível 9-10: Especialista (Tópicos Especializados)</div>
+                </div>
+            </div>
+
+            <!-- MAPA DE DEPENDÊNCIAS -->
+            <div class="mapa-dependencias">
+                <h2>🗺️ Mapa de Dependências</h2>
+                <p>Entenda o que você precisa aprender antes de cada tópico:</p>
+                
+                <div class="grafo-dependencias" id="mapaDependencias">
+                    <p style="text-align: center; color: #7f8c8d;">Selecione um tópico para ver suas dependências</p>
+                </div>
+            </div>
+
+            <!-- TÓPICO SELECIONADO -->
+            <div class="topico-selecionado" id="topicoSelecionado" style="display: none;">
+                <h2 id="topicoTitulo"></h2>
+                
+                <div class="info-topico">
+                    <div class="info-topico-item">
+                        <h4>📊 Informações</h4>
+                        <p><strong>Categoria:</strong> <span id="topicoCategoriaInfo"></span></p>
+                        <p><strong>Dificuldade:</strong> <span id="topicoDificuldadeInfo"></span></p>
+                        <p><strong>Descrição:</strong> <span id="topicoDescricaoInfo"></span></p>
+                    </div>
+
+                    <div class="info-topico-item">
+                        <h4>📚 Pré-requisitos</h4>
+                        <ul class="dependencias-list" id="topicoDependenciasInfo">
+                            <li>Nenhum pré-requisito</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-topico-item">
+                        <h4>🔗 Tópicos Relacionados</h4>
+                        <ul class="dependencias-list" id="topicoRelacionadosInfo">
+                            <li>Nenhum relacionado</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-topico-item">
+                        <h4>💡 Exemplos</h4>
+                        <ul class="dependencias-list" id="topicoExemplosInfo">
+                            <li>Carregando exemplos...</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button class="btn-criar-aula" onclick="criarAulaAutomatica()">
+                    ✨ Criar Aula Automaticamente
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Seu Site de Estudos | Criado com dedicação ao aprendizado</p>
+        <p>
+            <a href="#">Sobre</a> | 
+            <a href="#">Contato</a> | 
+            <a href="#">Feedback</a>
+        </p>
+    </footer>
+
+    <script src="js/pesquisa.js"></script>
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações | SamuelPensante</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --cor-primaria: #667eea;
+            --cor-secundaria: #764ba2;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            color: var(--cor-primaria);
+            font-size: 1.8rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card-config {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-config h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid var(--cor-primaria);
+            padding-bottom: 10px;
+        }
+
+        .config-grupo {
+            margin-bottom: 25px;
+        }
+
+        .config-grupo label {
+            display: block;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .config-grupo input,
+        .config-grupo textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .config-grupo input:focus,
+        .config-grupo textarea:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .config-descricao {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .config-link {
+            color: var(--cor-primaria);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .config-link:hover {
+            text-decoration: underline;
+        }
+
+        .botoes-config {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-config {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-salvar {
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            color: white;
+        }
+
+        .btn-salvar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-limpar {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-limpar:hover {
+            background: #bdc3c7;
+        }
+
+        .btn-voltar {
+            background: #95a5a6;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .btn-voltar:hover {
+            background: #7f8c8d;
+        }
+
+        .alerta {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alerta-sucesso {
+            background: #d5f4e6;
+            border-color: #27ae60;
+            color: #155724;
+        }
+
+        .alerta-erro {
+            background: #fadbd8;
+            border-color: #e74c3c;
+            color: #721c24;
+        }
+
+        .alerta-info {
+            background: #d6eaf8;
+            border-color: #3498db;
+            color: #1a5490;
+        }
+
+        .alerta-aviso {
+            background: #fef5e7;
+            border-color: #f39c12;
+            color: #7d6608;
+        }
+
+        .status-gemini {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .status-indicador {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e74c3c;
+        }
+
+        .status-indicador.ativo {
+            background: #27ae60;
+        }
+
+        .status-texto {
+            flex: 1;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .btn-testar {
+            padding: 8px 16px;
+            background: var(--cor-primaria);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .btn-testar:hover {
+            background: var(--cor-secundaria);
+        }
+
+        .secao-info {
+            background: #f0f7ff;
+            border-left: 4px solid var(--cor-primaria);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .secao-info h3 {
+            color: var(--cor-primaria);
+            margin-bottom: 10px;
+        }
+
+        .secao-info p {
+            color: #2c3e50;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .secao-info ol {
+            margin-left: 20px;
+            color: #2c3e50;
+        }
+
+        .secao-info li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .container {
+                margin: 20px auto;
+            }
+
+            .card-config {
+                padding: 20px;
+            }
+
+            .botoes-config {
+                flex-direction: column;
+            }
+
+            .btn-config {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⚙️ Configurações</h1>
+    </header>
+
+    <div class="container">
+        <a href="index-novo.html" class="btn-voltar">← Voltar</a>
+
+        <!-- CONFIGURAÇÃO GEMINI -->
+        <div class="card-config">
+            <h2>🤖 Configuração da IA Gemini</h2>
+
+            <div class="secao-info">
+                <h3>Como obter sua chave de API Gemini?</h3>
+                <ol>
+                    <li>Acesse <a href="https://ai.google.dev" class="config-link" target="_blank">ai.google.dev</a></li>
+                    <li>Clique em "Get API Key"</li>
+                    <li>Crie um novo projeto ou selecione um existente</li>
+                    <li>Copie a chave gerada</li>
+                    <li>Cole a chave no campo abaixo</li>
+                </ol>
+                <p><strong>Nota:</strong> A chave é salva localmente no seu navegador. Nunca é enviada para servidores externos.</p>
+            </div>
+
+            <div id="alertas"></div>
+
+            <div class="config-grupo">
+                <label for="chaveGemini">🔑 Chave de API Gemini</label>
+                <input 
+                    type="password" 
+                    id="chaveGemini" 
+                    placeholder="Cole sua chave aqui (ex: AIzaSyD...)"
+                >
+                <div class="config-descricao">
+                    Sua chave de API será usada para gerar conteúdo com IA. 
+                    <a href="https://ai.google.dev/tutorials/setup" class="config-link" target="_blank">Ver tutorial</a>
+                </div>
+            </div>
+
+            <div class="status-gemini">
+                <div class="status-indicador" id="statusIndicador"></div>
+                <div class="status-texto" id="statusTexto">Não configurado</div>
+                <button class="btn-testar" onclick="testarGemini()">Testar</button>
+            </div>
+
+            <div class="botoes-config">
+                <button class="btn-config btn-salvar" onclick="salvarConfiguracoes()">💾 Salvar Configurações</button>
+                <button class="btn-config btn-limpar" onclick="limparConfiguracoes()">🗑️ Limpar</button>
+            </div>
+        </div>
+
+        <!-- INFORMAÇÕES SOBRE WIKIPÉDIA -->
+        <div class="card-config">
+            <h2>📖 Integração com Wikipédia</h2>
+            <p style="color: #7f8c8d; line-height: 1.6;">
+                A Wikipédia é integrada automaticamente! Quando você pesquisa um tópico, o site busca 
+                automaticamente na Wikipédia e combina com as respostas da IA Gemini para fornecer 
+                conteúdo mais rico e confiável.
+            </p>
+            <div class="alerta alerta-sucesso">
+                ✅ Wikipédia está sempre disponível e não requer configuração!
+            </div>
+        </div>
+
+        <!-- INFORMAÇÕES SOBRE CACHE -->
+        <div class="card-config">
+            <h2>💾 Cache e Performance</h2>
+            <p style="color: #7f8c8d; line-height: 1.6;">
+                O site salva automaticamente os resultados de pesquisas para melhorar a performance. 
+                Resultados em cache expiram após 1 hora.
+            </p>
+            <button class="btn-config btn-limpar" onclick="limparCache()">🗑️ Limpar Cache</button>
+        </div>
+
+        <!-- INFORMAÇÕES SOBRE PRIVACIDADE -->
+        <div class="card-config">
+            <h2>🔒 Privacidade e Segurança</h2>
+            <div class="alerta alerta-info">
+                <strong>ℹ️ Informações Importantes:</strong>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Sua chave de API é salva localmente no navegador</li>
+                    <li>Nunca é enviada para servidores de terceiros</li>
+                    <li>Você pode limpar a chave a qualquer momento</li>
+                    <li>As pesquisas são enviadas apenas para Google Gemini e Wikipédia</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 SamuelPensante - Plataforma de Estudos</p>
+    </footer>
+
+    <script src="js/ia-gemini.js"></script>
+    <script>
+        // Carregar configurações ao abrir a página
+        window.addEventListener('load', function() {
+            carregarConfiguracoes();
+            verificarStatusGemini();
+        });
+
+        function carregarConfiguracoes() {
+            const chave = localStorage.getItem('geminiApiKey') || '';
+            document.getElementById('chaveGemini').value = chave;
+        }
+
+        function salvarConfiguracoes() {
+            const chave = document.getElementById('chaveGemini').value.trim();
+            
+            if (!chave) {
+                mostrarAlerta('Por favor, digite sua chave de API', 'erro');
+                return;
+            }
+
+            if (chave.length < 20) {
+                mostrarAlerta('A chave parece muito curta. Verifique se copiou corretamente', 'aviso');
+                return;
+            }
+
+            definirChaveGemini(chave);
+            mostrarAlerta('✅ Configurações salvas com sucesso!', 'sucesso');
+            verificarStatusGemini();
+        }
+
+        function limparConfiguracoes() {
+            if (confirm('Tem certeza que deseja limpar as configurações?')) {
+                localStorage.removeItem('geminiApiKey');
+                document.getElementById('chaveGemini').value = '';
+                mostrarAlerta('Configurações limpas', 'info');
+                verificarStatusGemini();
+            }
+        }
+
+        function limparCache() {
+            if (confirm('Tem certeza que deseja limpar o cache?')) {
+                localStorage.removeItem('cacheResultados');
+                mostrarAlerta('Cache limpado com sucesso', 'sucesso');
+            }
+        }
+
+        function verificarStatusGemini() {
+            const chave = localStorage.getItem('geminiApiKey');
+            const indicador = document.getElementById('statusIndicador');
+            const texto = document.getElementById('statusTexto');
+
+            if (chave) {
+                indicador.classList.add('ativo');
+                texto.textContent = '✅ Configurado e pronto para usar';
+            } else {
+                indicador.classList.remove('ativo');
+                texto.textContent = '❌ Não configurado';
+            }
+        }
+
+        async function testarGemini() {
+            const chave = localStorage.getItem('geminiApiKey');
+            
+            if (!chave) {
+                mostrarAlerta('Configure a chave primeiro', 'erro');
+                return;
+            }
+
+            mostrarAlerta('⏳ Testando conexão com Gemini...', 'info');
+
+            const resultado = await gerarComGemini('Responda com uma palavra: Funciona?');
+            
+            if (resultado.sucesso) {
+                mostrarAlerta('✅ Conexão com Gemini funcionando perfeitamente!', 'sucesso');
+            } else {
+                mostrarAlerta('❌ Erro ao conectar com Gemini: ' + resultado.mensagem, 'erro');
+            }
+        }
+
+        function mostrarAlerta(mensagem, tipo) {
+            const container = document.getElementById('alertas');
+            const alerta = document.createElement('div');
+            alerta.className = `alerta alerta-${tipo}`;
+            alerta.textContent = mensagem;
+            
+            container.innerHTML = '';
+            container.appendChild(alerta);
+
+            // Auto-remover após 5 segundos
+            setTimeout(() => {
+                alerta.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
