@@ -1,899 +1,921 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SamuelPensante - Plataforma de Estudos com IA</title>
+    <title>SamuelPensante | Tutor ENEM IA Premium</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Poppins', 'system-ui', 'sans-serif']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#faf5ff', 100: '#f3e8ff', 200: '#e9d5ff', 300: '#d8b4fe',
+                            400: '#c084fc', 500: '#a855f7', 600: '#9333ea', 700: '#7e22ce',
+                            800: '#6b21a8', 900: '#581c87', 950: '#3b0764',
+                        },
+                        dark: {
+                            bg: '#0f172a', surface: '#1e293b', border: '#334155'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
+            color: #f8fafc; 
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
         }
-
-        :root {
-            --cor-primaria: #667eea;
-            --cor-secundaria: #764ba2;
-            --cor-sucesso: #27ae60;
-            --cor-aviso: #f39c12;
-            --cor-erro: #e74c3c;
-            --cor-info: #3498db;
-            --cor-bg: #f8f9fa;
-            --cor-texto: #2c3e50;
+        
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--cor-bg);
-            min-height: 100vh;
-            color: var(--cor-texto);
+        
+        .glass-hover {
+            transition: all 0.3s ease;
         }
-
-        /* Layout Principal */
-        .layout {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            background: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-secundaria) 100%);
-            color: white;
-            padding: 30px 20px;
-            overflow-y: auto;
-            position: fixed;
-            height: 100vh;
-            left: 0;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .sidebar h1 {
-            font-size: 1.8rem;
-            margin-bottom: 30px;
-            text-align: center;
-            border-bottom: 2px solid rgba(255,255,255,0.3);
-            padding-bottom: 15px;
-        }
-
-        .nav-menu {
-            list-style: none;
-        }
-
-        .nav-item {
-            margin: 10px 0;
-        }
-
-        .nav-btn {
-            width: 100%;
-            background: rgba(255,255,255,0.15);
-            border: none;
-            color: white;
-            padding: 12px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s;
-            text-align: left;
-        }
-
-        .nav-btn:hover,
-        .nav-btn.ativo {
-            background: rgba(255,255,255,0.3);
-            transform: translateX(5px);
-        }
-
-        /* Conteúdo Principal */
-        .main-content {
-            margin-left: 280px;
-            flex: 1;
-            padding: 20px;
-        }
-
-        header {
-            background: white;
-            padding: 20px 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header h2 {
-            color: var(--cor-primaria);
-            font-size: 1.8rem;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .user-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        /* Seções */
-        .section {
-            display: none;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        .section.ativo {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .section-title {
-            font-size: 2rem;
-            color: var(--cor-primaria);
-            margin-bottom: 30px;
-            border-bottom: 3px solid var(--cor-primaria);
-            padding-bottom: 15px;
-        }
-
-        /* Cards */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-        }
-
-        .card-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            color: var(--cor-primaria);
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .card-description {
-            color: #7f8c8d;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #ecf0f1;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--cor-primaria), var(--cor-secundaria));
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        /* Pirâmide */
-        .piramide-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .piramide-nivel {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            width: 100%;
-        }
-
-        .piramide-card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            min-width: 200px;
-            transition: all 0.3s;
-        }
-
-        .piramide-card:hover {
-            transform: scale(1.05);
-        }
-
-        .piramide-card.nivel1 { border-top: 4px solid var(--cor-sucesso); }
-        .piramide-card.nivel2 { border-top: 4px solid var(--cor-info); }
-        .piramide-card.nivel3 { border-top: 4px solid var(--cor-aviso); }
-        .piramide-card.nivel4 { border-top: 4px solid var(--cor-erro); }
-
-        /* Chat IA */
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            height: 600px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .message {
-            padding: 12px 15px;
-            border-radius: 8px;
-            max-width: 70%;
-            word-wrap: break-word;
-        }
-
-        .message.user {
-            align-self: flex-end;
-            background: var(--cor-primaria);
-            color: white;
-        }
-
-        .message.bot {
-            align-self: flex-start;
-            background: #ecf0f1;
-            color: var(--cor-texto);
-        }
-
-        .chat-input {
-            padding: 15px;
-            border-top: 1px solid #ecf0f1;
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-input input {
-            flex: 1;
-            border: 1px solid #bdc3c7;
-            border-radius: 8px;
-            padding: 10px 15px;
-            font-size: 1rem;
-        }
-
-        .chat-input button {
-            background: var(--cor-primaria);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .chat-input button:hover {
-            background: var(--cor-secundaria);
-        }
-
-        /* Flashcards */
-        .flashcard {
-            background: white;
-            border-radius: 10px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            cursor: pointer;
-            min-height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            perspective: 1000px;
-        }
-
-        .flashcard:hover {
-            transform: scale(1.02);
-        }
-
-        .flashcard.front {
-            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
-            color: white;
-        }
-
-        .flashcard.back {
-            background: linear-gradient(135deg, var(--cor-info), var(--cor-primaria));
-            color: white;
-        }
-
-        .flashcard-text {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        /* Quiz */
-        .quiz-question {
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        .quiz-question h3 {
-            color: var(--cor-primaria);
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-        }
-
-        .quiz-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .quiz-option {
-            background: #f8f9fa;
-            border: 2px solid #bdc3c7;
-            border-radius: 8px;
-            padding: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .quiz-option:hover {
-            border-color: var(--cor-primaria);
-            background: #ecf0f1;
-        }
-
-        .quiz-option.correto {
-            background: var(--cor-sucesso);
-            color: white;
-            border-color: var(--cor-sucesso);
-        }
-
-        .quiz-option.incorreto {
-            background: var(--cor-erro);
-            color: white;
-            border-color: var(--cor-erro);
-        }
-
-        /* Botões */
-        .btn {
-            background: var(--cor-primaria);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-
-        .btn:hover {
-            background: var(--cor-secundaria);
+        
+        .glass-hover:hover {
+            background: rgba(30, 41, 59, 0.9);
+            border-color: rgba(168, 85, 247, 0.3);
             transform: translateY(-2px);
         }
-
-        .btn-secondary {
-            background: #95a5a6;
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        
+        .prose p { margin-bottom: 1rem; line-height: 1.6; }
+        .prose ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; }
+        .prose strong { color: #d8b4fe; }
+        .prose code { background: #0f172a; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-family: monospace; color: #c084fc; }
+        
+        .loader { 
+            border: 3px solid rgba(255,255,255,0.1); 
+            border-top-color: #a855f7; 
+            border-radius: 50%; 
+            width: 24px; 
+            height: 24px; 
+            animation: spin 1s linear infinite; 
         }
-
-        .btn-secondary:hover {
-            background: #7f8c8d;
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                padding: 15px 10px;
-            }
-
-            .sidebar h1 {
-                font-size: 1.4rem;
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-
-            header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-
-            .card-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .piramide-nivel {
-                flex-direction: column;
-            }
-
-            .piramide-card {
-                width: 100%;
-            }
-
-            .chat-container {
-                height: 400px;
-            }
-
-            .message {
-                max-width: 90%;
-            }
+        
+        .badge-gold { background: rgba(217, 119, 6, 0.2); color: #fbbf24; }
+        .badge-silver { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; }
+        .badge-bronze { background: rgba(124, 58, 12, 0.2); color: #ea580c; }
+        
+        .achievement {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(168, 85, 247, 0.1);
+            border: 2px solid rgba(168, 85, 247, 0.3);
         }
-
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+        
+        .achievement:hover {
+            transform: scale(1.1);
+            background: rgba(168, 85, 247, 0.2);
+            border-color: rgba(168, 85, 247, 0.6);
         }
-
+        
+        .achievement.locked {
+            opacity: 0.5;
+            filter: grayscale(100%);
+        }
+        
         .stat-card {
-            background: white;
-            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .stat-card:hover::before {
+            left: 100%;
+        }
+        
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
+        }
+        
+        .login-box {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .input-field {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
+            padding: 0.75rem 1rem;
+            color: #f8fafc;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
         }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--cor-primaria);
-            margin-bottom: 10px;
+        
+        .input-field:focus {
+            outline: none;
+            border-color: rgba(168, 85, 247, 0.5);
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
         }
-
-        .stat-label {
-            color: #7f8c8d;
-            font-size: 0.95rem;
+        
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        .slide-up { animation: slideUp 0.5s ease-out; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="layout">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <h1>🧠 SamuelPensante</h1>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <button class="nav-btn ativo" onclick="mostrarSecao('dashboard')">
-                        🏠 Dashboard
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-btn" onclick="mostrarSecao('piramide')">
-                        🔺 Pirâmide
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-btn" onclick="mostrarSecao('tutor')">
-                        💬 Tutor IA
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-btn" onclick="mostrarSecao('flashcards')">
-                        📇 Flashcards
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-btn" onclick="mostrarSecao('resumos')">
-                        📝 Resumos
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-btn" onclick="mostrarSecao('quiz')">
-                        ❓ Quiz
-                    </button>
-                </li>
-            </ul>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="login-container">
+    <div class="login-box">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-brand-600/30">
+                <i class="fa-solid fa-brain text-white text-2xl"></i>
+            </div>
+            <h1 class="text-3xl font-bold font-display text-white mb-2">SamuelPensante</h1>
+            <p class="text-slate-400 text-sm">Tutor ENEM IA Premium - Acesso Privado</p>
         </div>
-
-        <!-- Conteúdo Principal -->
-        <div class="main-content">
-            <!-- Header -->
-            <header>
-                <h2 id="page-title">Dashboard</h2>
-                <div class="user-info">
-                    <span>Bem-vindo, Samuel!</span>
-                    <div class="user-avatar">SP</div>
-                </div>
-            </header>
-
-            <!-- DASHBOARD -->
-            <section id="dashboard" class="section ativo">
-                <h3 class="section-title">📊 Dashboard</h3>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number">24.5</div>
-                        <div class="stat-label">Horas Estudadas</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">12</div>
-                        <div class="stat-label">Dias de Streak</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">18</div>
-                        <div class="stat-label">Tópicos Completos</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">62%</div>
-                        <div class="stat-label">Progresso Geral</div>
-                    </div>
-                </div>
-
-                <h4 style="color: var(--cor-primaria); margin-bottom: 20px; font-size: 1.3rem;">Tópicos em Progresso</h4>
-                <div class="card-grid">
-                    <div class="card">
-                        <div class="card-icon">📐</div>
-                        <div class="card-title">Equação de 2º Grau</div>
-                        <div class="card-description">Matemática</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 65%;"></div>
-                        </div>
-                        <small style="color: #7f8c8d;">65% completo</small>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">🌱</div>
-                        <div class="card-title">Fotossíntese</div>
-                        <div class="card-description">Biologia</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 45%;"></div>
-                        </div>
-                        <small style="color: #7f8c8d;">45% completo</small>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">⚔️</div>
-                        <div class="card-title">Revolução Francesa</div>
-                        <div class="card-description">História</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 80%;"></div>
-                        </div>
-                        <small style="color: #7f8c8d;">80% completo</small>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PIRÂMIDE -->
-            <section id="piramide" class="section">
-                <h3 class="section-title">🔺 Pirâmide de Conhecimento</h3>
-                
-                <div class="piramide-container">
-                    <h4 style="color: var(--cor-primaria); margin-bottom: 20px;">Nível 1: Fundamentos</h4>
-                    <div class="piramide-nivel">
-                        <div class="piramide-card nivel1">
-                            <div style="font-size: 2rem; margin-bottom: 10px;">✓</div>
-                            <strong>Números Naturais</strong>
-                            <p style="color: #7f8c8d; font-size: 0.9rem; margin-top: 10px;">Concluído</p>
-                        </div>
-                        <div class="piramide-card nivel1">
-                            <div style="font-size: 2rem; margin-bottom: 10px;">✓</div>
-                            <strong>Adição e Subtração</strong>
-                            <p style="color: #7f8c8d; font-size: 0.9rem; margin-top: 10px;">Concluído</p>
-                        </div>
-                    </div>
-
-                    <h4 style="color: var(--cor-primaria); margin-bottom: 20px; margin-top: 30px;">Nível 2: Intermediário</h4>
-                    <div class="piramide-nivel">
-                        <div class="piramide-card nivel2">
-                            <div style="font-size: 2rem; margin-bottom: 10px;">🔄</div>
-                            <strong>Multiplicação</strong>
-                            <p style="color: #7f8c8d; font-size: 0.9rem; margin-top: 10px;">50% completo</p>
-                        </div>
-                        <div class="piramide-card nivel2">
-                            <div style="font-size: 2rem; margin-bottom: 10px;">🔄</div>
-                            <strong>Frações</strong>
-                            <p style="color: #7f8c8d; font-size: 0.9rem; margin-top: 10px;">30% completo</p>
-                        </div>
-                    </div>
-
-                    <h4 style="color: var(--cor-primaria); margin-bottom: 20px; margin-top: 30px;">Nível 3: Avançado</h4>
-                    <div class="piramide-nivel">
-                        <div class="piramide-card nivel3">
-                            <div style="font-size: 2rem; margin-bottom: 10px;">🔒</div>
-                            <strong>Equações</strong>
-                            <p style="color: #7f8c8d; font-size: 0.9rem; margin-top: 10px;">Bloqueado</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TUTOR IA -->
-            <section id="tutor" class="section">
-                <h3 class="section-title">💬 Tutor IA</h3>
-                
-                <div class="chat-container">
-                    <div class="chat-messages" id="chat-messages">
-                        <div class="message bot">
-                            Olá! 👋 Sou seu Tutor IA. Como posso ajudá-lo hoje?
-                        </div>
-                    </div>
-                    <div class="chat-input">
-                        <input type="text" id="chat-input" placeholder="Digite sua pergunta..." />
-                        <button onclick="enviarMensagem()">Enviar</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- FLASHCARDS -->
-            <section id="flashcards" class="section">
-                <h3 class="section-title">📇 Flashcards</h3>
-                
-                <div style="max-width: 600px; margin: 0 auto;">
-                    <div id="flashcard-container" class="flashcard front" onclick="virarFlashcard()">
-                        <div class="flashcard-text" id="flashcard-text">O que é Fotossíntese?</div>
-                    </div>
-                    <div style="display: flex; gap: 10px; justify-content: center; margin-top: 30px;">
-                        <button class="btn btn-secondary" onclick="flashcardAnterior()">← Anterior</button>
-                        <button class="btn" onclick="proximoFlashcard()">Próximo →</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- RESUMOS -->
-            <section id="resumos" class="section">
-                <h3 class="section-title">📝 Resumos</h3>
-                
-                <div class="card-grid">
-                    <div class="card">
-                        <div class="card-icon">📐</div>
-                        <div class="card-title">Equação de 2º Grau</div>
-                        <div class="card-description">
-                            Uma equação quadrática é uma equação polinomial de segundo grau. Pode ser resolvida usando a fórmula de Bhaskara.
-                        </div>
-                        <button class="btn" style="width: 100%; margin-top: 10px;">Ler Resumo</button>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">🌱</div>
-                        <div class="card-title">Fotossíntese</div>
-                        <div class="card-description">
-                            Processo biológico onde as plantas convertem luz solar em energia química. Ocorre principalmente nas folhas.
-                        </div>
-                        <button class="btn" style="width: 100%; margin-top: 10px;">Ler Resumo</button>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">⚔️</div>
-                        <div class="card-title">Revolução Francesa</div>
-                        <div class="card-description">
-                            Período de transformação social, política e cultural na França (1789-1799) que impactou o mundo.
-                        </div>
-                        <button class="btn" style="width: 100%; margin-top: 10px;">Ler Resumo</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- QUIZ -->
-            <section id="quiz" class="section">
-                <h3 class="section-title">❓ Quiz</h3>
-                
-                <div id="quiz-container">
-                    <div class="quiz-question">
-                        <h3>Pergunta 1: Qual é a fórmula de Bhaskara?</h3>
-                        <div class="quiz-options">
-                            <div class="quiz-option" onclick="verificarResposta(this, true)">
-                                x = (-b ± √(b² - 4ac)) / 2a
-                            </div>
-                            <div class="quiz-option" onclick="verificarResposta(this, false)">
-                                x = (b ± √(b² - 4ac)) / 2a
-                            </div>
-                            <div class="quiz-option" onclick="verificarResposta(this, false)">
-                                x = (-b ± √(b² + 4ac)) / 2a
-                            </div>
-                            <div class="quiz-option" onclick="verificarResposta(this, false)">
-                                x = (-b ± √(b² - 4ac)) / a
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="quiz-question">
-                        <h3>Pergunta 2: Em que processo as plantas produzem oxigênio?</h3>
-                        <div class="quiz-options">
-                            <div class="quiz-option" onclick="verificarResposta(this, false)">
-                                Respiração Celular
-                            </div>
-                            <div class="quiz-option" onclick="verificarResposta(this, true)">
-                                Fotossíntese
-                            </div>
-                            <div class="quiz-option" onclick="verificarResposta(this, false)">
-                                Fermentação
-                            </div>
-                            <div class="quiz-option" onclick="verificarResposta(this, false)">
-                                Decomposição
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="quiz-question">
-                        <h3>Pergunta 3: Em que ano começou a Revolução Francesa?</h3>
-                        <div class="quiz-options">
-                            <div class="quiz-option" onclick="verificarResposta(this, false)">
-                                1776
-                            </div>
-                            <div class="quiz-option" onclick="verificarResposta(this, false)">
-                                1799
-                            </div>
-                            <div class="quiz-option" onclick="verificarResposta(this, true)">
-                                1789
-                            </div>
-                            <div class="quiz-option" onclick="verificarResposta(this, false)">
-                                1800
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        
+        <div class="mb-6">
+            <label class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-2 block">Código de Acesso</label>
+            <input type="password" id="accessCode" class="input-field" placeholder="Digite seu código" autocomplete="off">
+            <button onclick="login()" class="btn-primary">
+                <i class="fa-solid fa-lock-open mr-2"></i> Acessar
+            </button>
+        </div>
+        
+        <div class="text-center">
+            <p class="text-xs text-slate-500">Plataforma privada de estudos com IA</p>
         </div>
     </div>
+</div>
 
-    <script>
-        // Dados de Flashcards
-        const flashcards = [
-            { pergunta: "O que é Fotossíntese?", resposta: "Processo onde plantas convertem luz solar em energia química" },
-            { pergunta: "Qual é a fórmula de Bhaskara?", resposta: "x = (-b ± √(b² - 4ac)) / 2a" },
-            { pergunta: "Quando começou a Revolução Francesa?", resposta: "Em 1789" },
-            { pergunta: "O que é uma célula?", resposta: "A menor unidade estrutural e funcional dos seres vivos" },
-        ];
-
-        let flashcardAtual = 0;
-        let flashcardVirado = false;
-
-        // Funções de Navegação
-        function mostrarSecao(secao) {
-            // Esconder todas as seções
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(s => s.classList.remove('ativo'));
-
-            // Mostrar seção selecionada
-            document.getElementById(secao).classList.add('ativo');
-
-            // Atualizar botões da navegação
-            const navBtns = document.querySelectorAll('.nav-btn');
-            navBtns.forEach(btn => btn.classList.remove('ativo'));
-            event.target.classList.add('ativo');
-
-            // Atualizar título
-            const titulos = {
-                'dashboard': '📊 Dashboard',
-                'piramide': '🔺 Pirâmide de Conhecimento',
-                'tutor': '💬 Tutor IA',
-                'flashcards': '📇 Flashcards',
-                'resumos': '📝 Resumos',
-                'quiz': '❓ Quiz'
-            };
-            document.getElementById('page-title').textContent = titulos[secao];
-        }
-
-        // Funções de Chat
-        function enviarMensagem() {
-            const input = document.getElementById('chat-input');
-            const mensagem = input.value.trim();
+<!-- MAIN APP -->
+<div id="mainApp" class="hidden flex h-screen overflow-hidden">
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 w-64 glass z-40 flex flex-col h-full border-r border-dark-border">
+        <div class="flex md:hidden justify-between items-center p-4 border-b border-dark-border">
+            <span class="font-bold text-white">Menu</span>
+            <button onclick="toggleSidebar()" class="text-xl"><i class="fa-solid fa-times"></i></button>
+        </div>
+        
+        <div class="hidden md:flex items-center gap-3 p-6 border-b border-dark-border">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-600/20">
+                <i class="fa-solid fa-brain text-white text-xl"></i>
+            </div>
+            <h1 class="font-bold text-xl tracking-tight text-white">Samuel<span class="text-brand-400">Pensante</span></h1>
+        </div>
+        
+        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+            <a href="#" onclick="nav('dashboard')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl bg-brand-600/20 text-brand-300 font-medium transition-colors">
+                <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
+            </a>
+            <a href="#" onclick="nav('pyramid')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-dark-surface text-slate-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-layer-group w-5"></i> Pirâmide do Saber
+            </a>
+            <a href="#" onclick="nav('chat')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-dark-surface text-slate-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-robot w-5"></i> Tutor IA
+            </a>
+            <a href="#" onclick="nav('flashcards')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-dark-surface text-slate-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-clone w-5"></i> Flashcards
+            </a>
+            <a href="#" onclick="nav('summary')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-dark-surface text-slate-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-file-lines w-5"></i> Gerar Resumo
+            </a>
+            <a href="#" onclick="nav('quiz')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-dark-surface text-slate-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-gamepad w-5"></i> Quiz Dinâmico
+            </a>
+            <a href="#" onclick="nav('achievements')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-dark-surface text-slate-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-trophy w-5"></i> Achievements
+            </a>
+            <a href="#" onclick="nav('analytics')" class="nav-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-dark-surface text-slate-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-chart-line w-5"></i> Análise
+            </a>
+        </nav>
+        
+        <div class="p-4 border-t border-dark-border">
+            <button onclick="logout()" class="w-full bg-red-600/20 hover:bg-red-600/30 text-red-400 text-sm py-2 rounded-lg font-medium transition-colors">
+                <i class="fa-solid fa-sign-out mr-2"></i> Sair
+            </button>
+        </div>
+    </aside>
+    
+    <!-- MOBILE MENU BUTTON -->
+    <button id="mobileMenuBtn" onclick="toggleSidebar()" class="md:hidden fixed top-4 left-4 z-50 bg-brand-600 text-white p-3 rounded-lg">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+    
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 h-full overflow-y-auto relative bg-dark-bg">
+        <div class="p-4 md:p-8 max-w-7xl mx-auto">
             
-            if (mensagem) {
-                const chatMessages = document.getElementById('chat-messages');
+            <!-- DASHBOARD -->
+            <section id="view-dashboard" class="view-section fade-in">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div>
+                        <h2 class="text-4xl font-bold font-display text-white mb-2">Bem-vindo, <span class="text-brand-400">Samuel!</span> 👋</h2>
+                        <p class="text-slate-400">Pronto para dominar o ENEM hoje?</p>
+                    </div>
+                    <div class="glass px-6 py-3 rounded-2xl flex items-center gap-4">
+                        <div class="text-brand-500 text-2xl"><i class="fa-solid fa-fire"></i></div>
+                        <div>
+                            <div class="text-xs text-slate-400 uppercase font-bold tracking-wider">Ofensiva</div>
+                            <div class="text-xl font-bold text-white"><span id="streakDays">1</span> Dias</div>
+                        </div>
+                    </div>
+                </div>
                 
-                // Adicionar mensagem do usuário
-                const userMsg = document.createElement('div');
-                userMsg.className = 'message user';
-                userMsg.textContent = mensagem;
-                chatMessages.appendChild(userMsg);
-
-                // Simular resposta da IA
-                setTimeout(() => {
-                    const botMsg = document.createElement('div');
-                    botMsg.className = 'message bot';
-                    botMsg.textContent = 'Ótima pergunta! Deixe-me ajudá-lo com isso...';
-                    chatMessages.appendChild(botMsg);
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }, 500);
-
-                input.value = '';
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-        }
-
-        // Funções de Flashcard
-        function virarFlashcard() {
-            const container = document.getElementById('flashcard-container');
-            const text = document.getElementById('flashcard-text');
+                <div class="glass p-6 rounded-2xl mb-8">
+                    <div class="flex justify-between items-end mb-2">
+                        <div>
+                            <span class="text-sm text-slate-400">Nível Atual</span>
+                            <h3 class="text-2xl font-bold text-brand-300" id="userLevelName">Vestibulando</h3>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-2xl font-bold text-white" id="userXp">0</span> <span class="text-slate-400 text-sm">XP</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-dark-bg rounded-full h-3">
+                        <div id="xpBar" class="bg-gradient-to-r from-brand-600 to-brand-400 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    <div class="glass glass-hover p-6 rounded-2xl stat-card">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-book"></i></div>
+                        <div class="text-3xl font-bold text-white mb-1" id="statQuizzes">12</div>
+                        <div class="text-sm text-slate-400">Quizzes Completos</div>
+                    </div>
+                    <div class="glass glass-hover p-6 rounded-2xl stat-card">
+                        <div class="w-12 h-12 rounded-xl bg-green-500/20 text-green-400 flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-layer-group"></i></div>
+                        <div class="text-3xl font-bold text-white mb-1" id="statFlashcards">45</div>
+                        <div class="text-sm text-slate-400">Flashcards Revisados</div>
+                    </div>
+                    <div class="glass glass-hover p-6 rounded-2xl stat-card">
+                        <div class="w-12 h-12 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-message"></i></div>
+                        <div class="text-3xl font-bold text-white mb-1" id="statMessages">28</div>
+                        <div class="text-sm text-slate-400">Interações com IA</div>
+                    </div>
+                    <div class="glass glass-hover p-6 rounded-2xl stat-card">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-clock"></i></div>
+                        <div class="text-3xl font-bold text-white mb-1" id="statHours">8.5</div>
+                        <div class="text-sm text-slate-400">Horas de Estudo</div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass p-6 rounded-2xl">
+                        <h3 class="text-xl font-bold text-white mb-4"><i class="fa-solid fa-book-open mr-2 text-brand-400"></i>Continuar Estudando</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-dark-bg rounded-lg hover:bg-dark-surface transition-colors cursor-pointer">
+                                <div>
+                                    <p class="text-white font-medium">Equações de 2º Grau</p>
+                                    <p class="text-sm text-slate-400">Matemática</p>
+                                </div>
+                                <div class="text-brand-400">60%</div>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-dark-bg rounded-lg hover:bg-dark-surface transition-colors cursor-pointer">
+                                <div>
+                                    <p class="text-white font-medium">Fotossíntese</p>
+                                    <p class="text-sm text-slate-400">Biologia</p>
+                                </div>
+                                <div class="text-brand-400">40%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass p-6 rounded-2xl">
+                        <h3 class="text-xl font-bold text-white mb-4"><i class="fa-solid fa-star mr-2 text-yellow-400"></i>Próximos Objetivos</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-dark-bg rounded-lg">
+                                <div class="w-2 h-2 rounded-full bg-brand-500"></div>
+                                <div class="flex-1">
+                                    <p class="text-white font-medium">Completar 5 Quizzes</p>
+                                    <p class="text-xs text-slate-400">3/5 completos</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-dark-bg rounded-lg">
+                                <div class="w-2 h-2 rounded-full bg-brand-500"></div>
+                                <div class="flex-1">
+                                    <p class="text-white font-medium">Manter Streak de 7 dias</p>
+                                    <p class="text-xs text-slate-400">1/7 dias</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             
-            flashcardVirado = !flashcardVirado;
+            <!-- PYRAMID -->
+            <section id="view-pyramid" class="view-section hidden slide-up">
+                <h2 class="text-3xl font-bold font-display text-white mb-2">Pirâmide do Conhecimento</h2>
+                <p class="text-slate-400 mb-8">Siga a jornada desde os fundamentos até a maestria. Cada nível desbloqueia o próximo.</p>
+                
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <div class="glass glass-hover p-6 rounded-2xl border-2 border-transparent cursor-pointer" onclick="showToast('🎯 Nível 4 desbloqueado em breve!')">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-brand-400 font-bold text-lg">4. Maestria</span>
+                                <p class="text-slate-300 text-sm mt-1">Questões complexas e redação nota 1000</p>
+                            </div>
+                            <div class="text-sm bg-dark-bg px-3 py-1 rounded-full"><i class="fa-solid fa-lock mr-1"></i> 0%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass glass-hover p-6 rounded-2xl border-2 border-transparent cursor-pointer" onclick="showToast('🎯 Nível 3 desbloqueado em breve!')">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-brand-400 font-bold text-lg">3. Especialização</span>
+                                <p class="text-slate-300 text-sm mt-1">Aprofundamento e interdisciplinaridade</p>
+                            </div>
+                            <div class="text-sm bg-dark-bg px-3 py-1 rounded-full"><i class="fa-solid fa-lock mr-1"></i> 0%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass glass-hover p-6 rounded-2xl border-2 border-brand-500/30 cursor-pointer" onclick="showToast('📚 Nível 2: Prática - Resolvendo questões ENEM')">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-brand-400 font-bold text-lg">2. Prática</span>
+                                <p class="text-slate-300 text-sm mt-1">Resolução de questões padrão ENEM</p>
+                            </div>
+                            <div class="text-sm bg-brand-600/20 text-brand-300 px-3 py-1 rounded-full">60%</div>
+                        </div>
+                        <div class="w-full bg-dark-bg rounded-full h-2 mt-3"><div class="bg-brand-500 h-2 rounded-full" style="width: 60%"></div></div>
+                    </div>
+                    
+                    <div class="glass glass-hover p-6 rounded-2xl border-2 border-brand-500/30 cursor-pointer" onclick="showToast('📚 Nível 1: Fundamentos - Conceitos básicos')">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-brand-400 font-bold text-lg">1. Fundamentos</span>
+                                <p class="text-slate-300 text-sm mt-1">Conceitos básicos e revisão essencial</p>
+                            </div>
+                            <div class="text-sm bg-brand-600/20 text-brand-300 px-3 py-1 rounded-full">100%</div>
+                        </div>
+                        <div class="w-full bg-dark-bg rounded-full h-2 mt-3"><div class="bg-brand-500 h-2 rounded-full" style="width: 100%"></div></div>
+                    </div>
+                </div>
+            </section>
             
-            if (flashcardVirado) {
-                container.classList.remove('front');
-                container.classList.add('back');
-                text.textContent = flashcards[flashcardAtual].resposta;
-            } else {
-                container.classList.remove('back');
-                container.classList.add('front');
-                text.textContent = flashcards[flashcardAtual].pergunta;
-            }
-        }
-
-        function proximoFlashcard() {
-            flashcardAtual = (flashcardAtual + 1) % flashcards.length;
-            flashcardVirado = false;
-            atualizarFlashcard();
-        }
-
-        function flashcardAnterior() {
-            flashcardAtual = (flashcardAtual - 1 + flashcards.length) % flashcards.length;
-            flashcardVirado = false;
-            atualizarFlashcard();
-        }
-
-        function atualizarFlashcard() {
-            const container = document.getElementById('flashcard-container');
-            const text = document.getElementById('flashcard-text');
+            <!-- CHAT IA -->
+            <section id="view-chat" class="view-section hidden slide-up flex flex-col h-full">
+                <h2 class="text-3xl font-bold font-display text-white mb-2">Tutor IA</h2>
+                <p class="text-slate-400 mb-6">Faça suas perguntas e receba explicações personalizadas</p>
+                
+                <div class="glass rounded-2xl p-6 flex-1 flex flex-col mb-6 max-h-96 overflow-y-auto">
+                    <div id="chatMessages" class="space-y-4 flex-1">
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fa-solid fa-robot text-white text-sm"></i>
+                            </div>
+                            <div class="glass p-4 rounded-xl max-w-xs">
+                                <p class="text-slate-200 text-sm">Olá! Sou seu tutor IA. Como posso ajudar você hoje?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex gap-3">
+                    <input type="text" id="chatInput" placeholder="Digite sua pergunta..." class="flex-1 glass px-4 py-3 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-brand-500">
+                    <button onclick="sendMessage()" class="bg-brand-600 hover:bg-brand-500 text-white px-6 py-3 rounded-xl font-medium transition-colors">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </section>
             
-            container.classList.remove('back');
-            container.classList.add('front');
-            text.textContent = flashcards[flashcardAtual].pergunta;
-        }
-
-        // Funções de Quiz
-        function verificarResposta(element, correto) {
-            if (correto) {
-                element.classList.add('correto');
-            } else {
-                element.classList.add('incorreto');
-            }
+            <!-- FLASHCARDS -->
+            <section id="view-flashcards" class="view-section hidden slide-up">
+                <h2 class="text-3xl font-bold font-display text-white mb-2">Flashcards</h2>
+                <p class="text-slate-400 mb-8">Revise conceitos importantes com flashcards interativos</p>
+                
+                <div class="max-w-2xl mx-auto">
+                    <div id="flashcardContainer" class="glass p-8 rounded-2xl min-h-64 flex items-center justify-center cursor-pointer hover:bg-opacity-80 transition-all" onclick="flipCard()">
+                        <div class="text-center">
+                            <p class="text-slate-400 text-sm mb-4">Clique para virar</p>
+                            <p id="flashcardText" class="text-3xl font-bold text-white">O que é fotossíntese?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mt-8">
+                        <button onclick="previousCard()" class="glass px-6 py-3 rounded-xl text-white hover:bg-opacity-80 transition-colors">
+                            <i class="fa-solid fa-chevron-left mr-2"></i> Anterior
+                        </button>
+                        <span class="text-slate-400" id="cardCounter">1 / 10</span>
+                        <button onclick="nextCard()" class="glass px-6 py-3 rounded-xl text-white hover:bg-opacity-80 transition-colors">
+                            Próximo <i class="fa-solid fa-chevron-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
             
-            // Desabilitar outras opções
-            const options = element.parentElement.querySelectorAll('.quiz-option');
-            options.forEach(opt => opt.style.pointerEvents = 'none');
-        }
+            <!-- SUMMARY -->
+            <section id="view-summary" class="view-section hidden slide-up">
+                <h2 class="text-3xl font-bold font-display text-white mb-2">Gerar Resumo</h2>
+                <p class="text-slate-400 mb-8">Crie resumos automáticos com IA sobre qualquer tópico</p>
+                
+                <div class="max-w-2xl mx-auto">
+                    <div class="glass p-6 rounded-2xl mb-6">
+                        <label class="text-sm text-slate-400 uppercase font-bold tracking-wider mb-2 block">Tópico</label>
+                        <input type="text" id="summaryTopic" placeholder="Ex: Fotossíntese, Revolução Francesa..." class="w-full glass px-4 py-3 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 mb-4">
+                        
+                        <label class="text-sm text-slate-400 uppercase font-bold tracking-wider mb-2 block">Disciplina</label>
+                        <select id="summaryDiscipline" class="w-full glass px-4 py-3 rounded-xl text-white focus:outline-none focus:border-brand-500 mb-6">
+                            <option value="biologia">Biologia</option>
+                            <option value="historia">História</option>
+                            <option value="matematica">Matemática</option>
+                            <option value="fisica">Física</option>
+                            <option value="quimica">Química</option>
+                            <option value="portugues">Português</option>
+                        </select>
+                        
+                        <button onclick="generateSummary()" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-6 rounded-xl transition-colors">
+                            <i class="fa-solid fa-sparkles mr-2"></i> Gerar Resumo
+                        </button>
+                    </div>
+                    
+                    <div id="summaryResult" class="glass p-6 rounded-2xl hidden">
+                        <h3 class="text-xl font-bold text-white mb-4">Resumo Gerado</h3>
+                        <div id="summaryContent" class="prose text-slate-200 text-sm"></div>
+                        <button onclick="exportSummary()" class="mt-6 bg-brand-600 hover:bg-brand-500 text-white font-bold py-2 px-4 rounded-lg transition-colors text-sm">
+                            <i class="fa-solid fa-download mr-2"></i> Exportar PDF
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- QUIZ -->
+            <section id="view-quiz" class="view-section hidden slide-up">
+                <h2 class="text-3xl font-bold font-display text-white mb-2">Quiz Dinâmico</h2>
+                <p class="text-slate-400 mb-8">Teste seus conhecimentos com perguntas do ENEM</p>
+                
+                <div class="max-w-2xl mx-auto">
+                    <div class="glass p-6 rounded-2xl mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-slate-400">Pergunta <span id="quizCounter">1</span> de 5</span>
+                            <div class="text-sm bg-dark-bg px-3 py-1 rounded-full">
+                                <span id="quizScore">0</span> pontos
+                            </div>
+                        </div>
+                        <div class="w-full bg-dark-bg rounded-full h-2 mb-6">
+                            <div id="quizProgress" class="bg-brand-500 h-2 rounded-full" style="width: 20%"></div>
+                        </div>
+                        
+                        <h3 id="quizQuestion" class="text-xl font-bold text-white mb-6">Qual é a fórmula da fotossíntese?</h3>
+                        
+                        <div id="quizOptions" class="space-y-3">
+                            <button onclick="answerQuiz(0)" class="w-full glass p-4 rounded-xl text-left hover:bg-opacity-80 transition-colors text-white">
+                                <span class="font-medium">A)</span> 6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂
+                            </button>
+                            <button onclick="answerQuiz(1)" class="w-full glass p-4 rounded-xl text-left hover:bg-opacity-80 transition-colors text-white">
+                                <span class="font-medium">B)</span> C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O
+                            </button>
+                            <button onclick="answerQuiz(2)" class="w-full glass p-4 rounded-xl text-left hover:bg-opacity-80 transition-colors text-white">
+                                <span class="font-medium">C)</span> H₂O → H⁺ + OH⁻
+                            </button>
+                            <button onclick="answerQuiz(3)" class="w-full glass p-4 rounded-xl text-left hover:bg-opacity-80 transition-colors text-white">
+                                <span class="font-medium">D)</span> 2H₂ + O₂ → 2H₂O
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ACHIEVEMENTS -->
+            <section id="view-achievements" class="view-section hidden slide-up">
+                <h2 class="text-3xl font-bold font-display text-white mb-2">Achievements</h2>
+                <p class="text-slate-400 mb-8">Desbloqueie badges e conquistas ao estudar</p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="achievement mb-3 mx-auto">🏆</div>
+                        <p class="text-white font-medium text-sm">Primeiro Passo</p>
+                        <p class="text-slate-400 text-xs">Completar 1 quiz</p>
+                        <span class="badge badge-gold mt-2">DESBLOQUEADO</span>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="achievement locked mb-3 mx-auto">🔥</div>
+                        <p class="text-white font-medium text-sm">Ofensiva</p>
+                        <p class="text-slate-400 text-xs">Manter 7 dias de streak</p>
+                        <span class="badge badge-silver mt-2">BLOQUEADO</span>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="achievement locked mb-3 mx-auto">📚</div>
+                        <p class="text-white font-medium text-sm">Erudito</p>
+                        <p class="text-slate-400 text-xs">Revisar 100 flashcards</p>
+                        <span class="badge badge-bronze mt-2">BLOQUEADO</span>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="achievement locked mb-3 mx-auto">🧠</div>
+                        <p class="text-white font-medium text-sm">Mestre</p>
+                        <p class="text-slate-400 text-xs">Atingir 90% de acurácia</p>
+                        <span class="badge badge-silver mt-2">BLOQUEADO</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ANALYTICS -->
+            <section id="view-analytics" class="view-section hidden slide-up">
+                <h2 class="text-3xl font-bold font-display text-white mb-2">Análise de Progresso</h2>
+                <p class="text-slate-400 mb-8">Acompanhe seu desempenho e evolução</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass p-6 rounded-2xl">
+                        <h3 class="text-lg font-bold text-white mb-4">Horas de Estudo (Últimos 7 dias)</h3>
+                        <canvas id="studyChart" height="300"></canvas>
+                    </div>
+                    
+                    <div class="glass p-6 rounded-2xl">
+                        <h3 class="text-lg font-bold text-white mb-4">Desempenho por Disciplina</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-slate-300">Matemática</span>
+                                    <span class="text-brand-400 font-bold">85%</span>
+                                </div>
+                                <div class="w-full bg-dark-bg rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-slate-300">Biologia</span>
+                                    <span class="text-brand-400 font-bold">72%</span>
+                                </div>
+                                <div class="w-full bg-dark-bg rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 72%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-slate-300">História</span>
+                                    <span class="text-brand-400 font-bold">68%</span>
+                                </div>
+                                <div class="w-full bg-dark-bg rounded-full h-2">
+                                    <div class="bg-orange-500 h-2 rounded-full" style="width: 68%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+    </main>
+</div>
 
-        // Permitir enviar mensagem com Enter
-        document.addEventListener('DOMContentLoaded', () => {
-            const chatInput = document.getElementById('chat-input');
-            if (chatInput) {
-                chatInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        enviarMensagem();
+<script>
+    // CONFIG
+    const CORRECT_PASSWORD = 'samuel123'; // Altere para sua senha
+    let currentUser = null;
+    let currentFlashcard = 0;
+    let isFlipped = false;
+    
+    // FLASHCARDS DATA
+    const flashcards = [
+        { front: 'O que é fotossíntese?', back: 'Processo biológico onde plantas convertem luz solar em energia química' },
+        { front: 'Qual é a fórmula da fotossíntese?', back: '6CO₂ + 6H₂O + luz → C₆H₁₂O₆ + 6O₂' },
+        { front: 'Quem foi Napoleão?', back: 'Militar francês que se tornou imperador da França' },
+        { front: 'O que é respiração celular?', back: 'Processo que libera energia das moléculas de alimento' },
+        { front: 'Qual é a capital da França?', back: 'Paris' },
+        { front: 'O que é um ecosistema?', back: 'Comunidade de organismos e seu ambiente físico' },
+        { front: 'Qual é a fórmula da respiração?', back: 'C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + energia' },
+        { front: 'O que é mitose?', back: 'Divisão celular que produz duas células idênticas' },
+        { front: 'Qual é o maior planeta do sistema solar?', back: 'Júpiter' },
+        { front: 'O que é DNA?', back: 'Molécula que contém informações genéticas' }
+    ];
+    
+    // LOGIN
+    function login() {
+        const code = document.getElementById('accessCode').value;
+        if (code === CORRECT_PASSWORD) {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            currentUser = { name: 'Samuel', level: 'Vestibulando', xp: 450 };
+            updateDashboard();
+        } else {
+            alert('❌ Código de acesso incorreto!');
+        }
+    }
+    
+    function logout() {
+        document.getElementById('mainApp').classList.add('hidden');
+        document.getElementById('loginScreen').classList.remove('hidden');
+        document.getElementById('accessCode').value = '';
+        currentUser = null;
+    }
+    
+    // NAVIGATION
+    function nav(section) {
+        document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+        document.getElementById('view-' + section).classList.remove('hidden');
+        
+        document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('bg-brand-600/20', 'text-brand-300'));
+        event.target.closest('.nav-link').classList.add('bg-brand-600/20', 'text-brand-300');
+        
+        toggleSidebar(); // Fechar sidebar em mobile
+        
+        if (section === 'analytics') {
+            setTimeout(initCharts, 100);
+        }
+    }
+    
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('-translate-x-full');
+    }
+    
+    // DASHBOARD
+    function updateDashboard() {
+        document.getElementById('userLevelName').textContent = currentUser.level;
+        document.getElementById('userXp').textContent = currentUser.xp;
+        document.getElementById('xpBar').style.width = (currentUser.xp / 1000 * 100) + '%';
+    }
+    
+    // FLASHCARDS
+    function flipCard() {
+        isFlipped = !isFlipped;
+        const card = document.getElementById('flashcardContainer');
+        const text = document.getElementById('flashcardText');
+        
+        if (isFlipped) {
+            text.textContent = flashcards[currentFlashcard].back;
+            card.style.background = 'rgba(168, 85, 247, 0.2)';
+        } else {
+            text.textContent = flashcards[currentFlashcard].front;
+            card.style.background = 'rgba(30, 41, 59, 0.7)';
+        }
+    }
+    
+    function nextCard() {
+        if (currentFlashcard < flashcards.length - 1) {
+            currentFlashcard++;
+            updateFlashcard();
+        }
+    }
+    
+    function previousCard() {
+        if (currentFlashcard > 0) {
+            currentFlashcard--;
+            updateFlashcard();
+        }
+    }
+    
+    function updateFlashcard() {
+        isFlipped = false;
+        document.getElementById('flashcardText').textContent = flashcards[currentFlashcard].front;
+        document.getElementById('cardCounter').textContent = (currentFlashcard + 1) + ' / ' + flashcards.length;
+        document.getElementById('flashcardContainer').style.background = 'rgba(30, 41, 59, 0.7)';
+    }
+    
+    // CHAT
+    function sendMessage() {
+        const input = document.getElementById('chatInput');
+        const message = input.value.trim();
+        
+        if (!message) return;
+        
+        const messagesDiv = document.getElementById('chatMessages');
+        
+        // User message
+        const userMsg = document.createElement('div');
+        userMsg.className = 'flex gap-3 justify-end';
+        userMsg.innerHTML = `
+            <div class="glass p-4 rounded-xl max-w-xs">
+                <p class="text-slate-200 text-sm">${message}</p>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center flex-shrink-0 mt-1">
+                <i class="fa-solid fa-user text-white text-sm"></i>
+            </div>
+        `;
+        messagesDiv.appendChild(userMsg);
+        
+        input.value = '';
+        
+        // AI response (simulated)
+        setTimeout(() => {
+            const aiMsg = document.createElement('div');
+            aiMsg.className = 'flex gap-3';
+            aiMsg.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center flex-shrink-0 mt-1">
+                    <i class="fa-solid fa-robot text-white text-sm"></i>
+                </div>
+                <div class="glass p-4 rounded-xl max-w-xs">
+                    <p class="text-slate-200 text-sm">Ótima pergunta! Deixe-me explicar...</p>
+                </div>
+            `;
+            messagesDiv.appendChild(aiMsg);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }, 500);
+    }
+    
+    // SUMMARY
+    function generateSummary() {
+        const topic = document.getElementById('summaryTopic').value;
+        if (!topic) {
+            alert('Digite um tópico!');
+            return;
+        }
+        
+        const result = document.getElementById('summaryResult');
+        const content = document.getElementById('summaryContent');
+        
+        content.innerHTML = `
+            <h4 class="font-bold text-brand-300 mb-3">${topic}</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <ul class="mt-3">
+                <li><strong>Ponto 1:</strong> Descrição detalhada</li>
+                <li><strong>Ponto 2:</strong> Informação importante</li>
+                <li><strong>Ponto 3:</strong> Conclusão</li>
+            </ul>
+        `;
+        
+        result.classList.remove('hidden');
+    }
+    
+    function exportSummary() {
+        alert('📄 Resumo exportado como PDF!');
+    }
+    
+    // QUIZ
+    function answerQuiz(index) {
+        if (index === 0) {
+            showToast('✅ Resposta correta! +10 pontos');
+            currentUser.xp += 10;
+        } else {
+            showToast('❌ Resposta incorreta. Tente novamente!');
+        }
+        updateDashboard();
+    }
+    
+    // CHARTS
+    function initCharts() {
+        const ctx = document.getElementById('studyChart');
+        if (!ctx) return;
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'],
+                datasets: [{
+                    label: 'Horas',
+                    data: [2, 3, 1.5, 2.5, 3, 2, 1.5],
+                    backgroundColor: 'rgba(168, 85, 247, 0.5)',
+                    borderColor: '#a855f7',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        ticks: { color: '#cbd5e1' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#cbd5e1' }
                     }
-                });
+                }
             }
         });
-    </script>
+    }
+    
+    // TOAST
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastMsg').textContent = message;
+        toast.style.transform = 'translateX(0)';
+        setTimeout(() => {
+            toast.style.transform = 'translateX(150%)';
+        }, 3000);
+    }
+    
+    // KEYBOARD
+    document.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && document.getElementById('accessCode').value && document.getElementById('loginScreen').classList.contains('hidden') === false) {
+            login();
+        }
+    });
+</script>
+
 </body>
 </html>
